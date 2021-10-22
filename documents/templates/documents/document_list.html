@@ -1,0 +1,12 @@
+<h1 >LIST</h1>
+
+<hr>
+{% for document in documents %}
+    ID: {{document.id}} <br>
+    OWNER: {{document.owner}} <br>
+    UPLOADED: {{document.created}} <br>
+    APPROVED: {{document.approved}} <br>
+    DOCUMENT NAME: {{document.document_file}} <br>
+    <a href=''> VIEW </a>
+    <hr>
+{% endfor %}
