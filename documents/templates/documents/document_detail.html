@@ -5,4 +5,7 @@
     UPLOADED: {{document.created}} <br>
     APPROVED: {{document.approved}} <br>
     DOCUMENT NAME: {{document.document_file}} <br>
-    <a href='{{document.document_file}}'> VIEW DOCUMENT </a>
+    <a href='{{document.document_file}}'> VIEW DOCUMENT </a> <br>
+    <a href='{% url 'document-update' document.id%}'> UPDATE DOCUMENT </a> <br>
+    <a href='{% url 'document-delete' document.id%}'> DELETE DOCUMENT </a> <br>
+
