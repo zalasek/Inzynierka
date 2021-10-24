@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from .models import Document
 from .forms import DocumentForm
 from django.core.files.storage import FileSystemStorage
@@ -6,14 +6,10 @@ from django.core.files.storage import FileSystemStorage
 
 
 
-
-
-def DocumentListView(request, *args, **kwargs):
+def DocumentListView(request):
     documents = Document.objects.all()
     context = {'documents' : documents}
     return render(request, 'documents/document_list.html', context)
-
-
 
 
 
@@ -31,14 +27,11 @@ def DocumentCreateView(request):
     if request.method == 'POST': #gdy zatwierdzimy formularz
         form = DocumentForm(request.POST , request.FILES)
         if form.is_valid():
-            form.save()
             return redirect('document-list')   
     else:   
         form = DocumentForm()  #gdy wczytamy stronę z formularzem
     context = {'form':form} 
     return render(request, 'documents/document_create.html', context)
-
-
 
 
 
@@ -51,16 +44,22 @@ def DocumentDeleteView(request, pk):
     return render(request, 'documents/document_delete.html', context)
 
 
-    
-
 def DocumentUpdateView(request, pk):
     form = DocumentForm(request.POST , request.FILES)
     context = {'form':form}
     if request.method == 'POST':
+        owner = request.POST.get('owner')
+        approved = request.POST.get('approved')
+
         document_file = request.FILES['document_file']
         fs = FileSystemStorage()
         document_file = fs.save(document_file.name, document_file)
         Document.objects.filter(id = pk).update(document_file = document_file)
+        Document.objects.filter(id = pk).update(owner = owner)
+        Document.objects.filter(id = pk).update(approved = approved.capitalize())
+        
+        
+        
         return redirect('document-list')
     else:
         return render(request, 'documents/document_update.html', context)
