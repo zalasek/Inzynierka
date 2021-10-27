@@ -8,7 +8,8 @@ from django.contrib.auth import authenticate, login, logout
 
 def DocumentListView(request):
 
-    documents = Document.objects.all()
+    owner_id = request.user.id
+    documents = Document.objects.filter(owner=owner_id)
     context = {'documents' : documents}
     return render(request, 'documents/document_list.html', context)
 
