@@ -2,11 +2,12 @@ from django.shortcuts import redirect, render
 from .models import Document
 from .forms import DocumentForm
 from django.core.files.storage import FileSystemStorage
-
+from django.contrib.auth import authenticate, login, logout 
 
 
 
 def DocumentListView(request):
+
     documents = Document.objects.all()
     context = {'documents' : documents}
     return render(request, 'documents/document_list.html', context)
@@ -27,7 +28,8 @@ def DocumentCreateView(request):
     if request.method == 'POST': #gdy zatwierdzimy formularz
         form = DocumentForm(request.POST , request.FILES)
         if form.is_valid():
-            return redirect('document-list')   
+            form.save()
+            return redirect('document-list')      
     else:   
         form = DocumentForm()  #gdy wczytamy stronę z formularzem
     context = {'form':form} 

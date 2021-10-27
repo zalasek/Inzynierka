@@ -1,0 +1,9 @@
+<h3> LOGIN </h3> {{user}}
+
+<form method='POST'> {% csrf_token %}
+    <input type='text' name='username' value='username'>
+    <input type='password' name='password' value='password'>
+    <input type='submit' value='Login'>
+</form>
+
+<h3>  <a href='{% url 'register'%}'> Register </a>   </h3>
