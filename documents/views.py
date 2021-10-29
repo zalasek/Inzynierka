@@ -3,20 +3,27 @@ from .models import Document
 from .forms import DocumentForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth import authenticate, login, logout 
+from django.conf import settings
+
 
 
 
 def DocumentListView(request):
-
-    owner_id = request.user.id
-    documents = Document.objects.filter(owner=owner_id)
-    context = {'documents' : documents}
-    return render(request, 'documents/document_list.html', context)
+    
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        owner_id = request.user.id
+        documents = Document.objects.filter(owner=owner_id)
+        context = {'documents' : documents}
+        return render(request, 'documents/document_list.html', context)
 
 
 
 
 def DocumentDetailView(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')    
     document = Document.objects.get(id=pk) 
     context = {'document':document}
     return render(request, 'documents/document_detail.html', context)
@@ -26,10 +33,12 @@ def DocumentDetailView(request, pk):
 
 
 def DocumentCreateView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST': #gdy zatwierdzimy formularz
         form = DocumentForm(request.POST , request.FILES)
         if form.is_valid():
-            form.save()
+            form.save()     
             return redirect('document-list')      
     else:   
         form = DocumentForm()  #gdy wczytamy stronę z formularzem
@@ -39,6 +48,8 @@ def DocumentCreateView(request):
 
 
 def DocumentDeleteView(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')   
     document = Document.objects.get(id=pk)
     if request.method == 'POST':
         document.delete()
@@ -48,6 +59,8 @@ def DocumentDeleteView(request, pk):
 
 
 def DocumentUpdateView(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
     form = DocumentForm(request.POST , request.FILES)
     context = {'form':form}
     if request.method == 'POST':
