@@ -7,16 +7,11 @@ from django.conf import settings
 
 
 
-
 def DocumentListView(request):
-    
-    if not request.user.is_authenticated:
-        return redirect('login')
-    else:
-        owner_id = request.user.id
-        documents = Document.objects.filter(owner=owner_id)
-        context = {'documents' : documents}
-        return render(request, 'documents/document_list.html', context)
+    owner_id = request.user.id
+    documents = Document.objects.filter(owner=owner_id)
+    context = {'documents' : documents}
+    return render(request, 'documents/document_list.html', context)
 
 
 
@@ -37,8 +32,11 @@ def DocumentCreateView(request):
         return redirect('login')
     if request.method == 'POST': #gdy zatwierdzimy formularz
         form = DocumentForm(request.POST , request.FILES)
+        
         if form.is_valid():
-            form.save()     
+            document = form.save(commit=False)
+            document.owner = request.user
+            document.save()
             return redirect('document-list')      
     else:   
         form = DocumentForm()  #gdy wczytamy stronę z formularzem

@@ -6,7 +6,6 @@ class DocumentForm(forms.ModelForm):
     class Meta:
         model=Document
         fields = [
-            'owner',
             'approved',
             'document_file',
         ]
