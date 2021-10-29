@@ -10,24 +10,11 @@ class Document(models.Model):
     description = models.TextField(max_length=300, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False, null=True, blank=True)
-    document_file = models.FileField(upload_to='media/', null=True, blank=True)
+    document_file = models.FileField(null=True, blank=True)
     
     def __str__(self) -> str:
-        return str(self.document_file)
+        return str(self.document_file.url)
 
-class Project(models.Model):
-    owner = models.ForeignKey(User, on_delete=CASCADE)
-    title = models.CharField(max_length=500)
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
-    description = models.TextField(max_length=1000, null=True, blank=True)
-
-    def __str__(self) -> str:
-        return str(self.title)
-
-class Assignment(models.Model):
-    project = models.ForeignKey(Project, on_delete=CASCADE)
-    user = models.ForeignKey(User, on_delete=CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
 
 
 
