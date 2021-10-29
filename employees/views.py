@@ -22,7 +22,7 @@ def LoginView(request):
     context = {}
     return render(request, 'employees/login.html', context)
 
-def LogoutView(request):
+def LogoutView( request):
     logout(request)
     return redirect('login')
 
