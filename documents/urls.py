@@ -5,11 +5,11 @@ from django.conf.urls.static import static
 from .views import DocumentListView, DocumentDetailView, DocumentCreateView, DocumentDeleteView, DocumentUpdateView
 
 urlpatterns = [             
-    path('documents/', DocumentListView, name='document-list'),
-    path('document/<int:pk>', DocumentDetailView, name='document-detail'),
-    path('document-create', DocumentCreateView, name='document-create'),
-    path('document-delete/<int:pk>', DocumentDeleteView, name='document-delete'),
-    path('document-update/<int:pk>', DocumentUpdateView, name='document-update'),
+    path('', DocumentListView, name='document-list'),
+    path('<int:pk>', DocumentDetailView, name='document-detail'),
+    path('create', DocumentCreateView, name='document-create'),
+    path('delete/<int:pk>', DocumentDeleteView, name='document-delete'),
+    path('update/<int:pk>', DocumentUpdateView, name='document-update'),
 ]
 
 if settings.DEBUG:

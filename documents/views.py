@@ -62,7 +62,8 @@ def DocumentUpdateView(request, pk):
     form = DocumentForm(request.POST , request.FILES)
     context = {'form':form}
     if request.method == 'POST':
-        owner = request.POST.get('owner')
+        
+        owner = request.user
         approved = request.POST.get('approved')
         document_file = request.FILES['document_file']
         

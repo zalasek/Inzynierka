@@ -10,14 +10,19 @@ class Document(models.Model):
     description = models.TextField(max_length=300, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False, null=True, blank=True)
-    document_file = models.FileField(upload_to='media/', null=True, blank=True)
+    document_file = models.FileField(null=True, blank=True)
     
     def __str__(self) -> str:
+<<<<<<< HEAD
         return str(self.document_file)
     
 
 
 
+=======
+        return str(self.document_file.url)
+
+>>>>>>> 19c65c8974fcdc77890cacfdf5e37bf33e47cbcd
 
 
 

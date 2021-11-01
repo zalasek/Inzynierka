@@ -18,10 +18,8 @@ from django.urls import path, include
 from employees.views import EmployeeCreateView, LoginView, LogoutView
 
 urlpatterns = [
-    path('', include('documents.urls')),
-    #path('', include('employees.urls')),
+    path('documents/', include('documents.urls')),
+    path('', include('employees.urls')),
     path('admin/', admin.site.urls),
-    path('register/', EmployeeCreateView, name='register'),
-    path('login/', LoginView, name='login'),
-    path('logout/', LogoutView, name='logout'),
+
 ]
