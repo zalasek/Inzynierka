@@ -7,8 +7,14 @@ from django.contrib.auth.models import User
 
 
 class Employee(models.Model):
+    position_choice = [
+    ('accounts', 'Accounts'),
+    ('director', 'Director'),
+    ('project_menager', 'Project Menager'),
+]
+    
     employee = models.OneToOneField(User, on_delete=models.CASCADE)
-    age = models.IntegerField()
+    position = models.CharField(max_length=30, null=True, blank=True, choices=position_choice)
     
     def __str__(self) -> str:
         return self.employee.username

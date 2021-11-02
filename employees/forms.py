@@ -27,4 +27,5 @@ class ExtendedUserCreationForm(UserCreationForm):
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['age']
+        fields = ['position']
+        
