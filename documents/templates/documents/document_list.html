@@ -1,9 +1,4 @@
-<h1 >LIST</h1> 
-<p> Logged as '{{request.user}}' </p>
-<h3>  <a href='{% url 'logout'%}'> Logout </a>   </h3>
-<h3>  <a href='{% url 'document-create'%}'> Add new document </a>   </h3>
 
-<hr>
 {% for document in documents %}
     ID: {{document.id}} <br>
     OWNER: {{document.owner}} <br>
@@ -11,6 +6,5 @@
     APPROVED: {{document.approved}} <br>
     DOCUMENT NAME: {{document.document_file}} <br>
         <a href='{% url 'document-detail' document.id %}'> VIEW </a>
-
 <hr>
 {% endfor %}
