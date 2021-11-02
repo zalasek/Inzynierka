@@ -18,7 +18,12 @@ def LoginView(request):
 
         if user is not None:    
             login(request, user)
-            return redirect('document-list')
+            if user.employee.position == 'director':
+                return redirect('director_home')
+            if user.employee.position == 'project_menager':
+                return redirect('project_menager_home')
+            if user.employee.position == 'accounts':
+                return redirect('accounts_home')
     context = {}
     return render(request, 'employees/login.html', context)
 
@@ -49,5 +54,20 @@ def EmployeeCreateView(request):
         form_employee = EmployeeForm()
     context = {'form_user': form_user, 'form_employee': form_employee}
     return render(request, 'employees/register.html', context)
+
+def AccountsHomeView(request):
+    
+    context = {}
+    return render(request, 'employees/accounts_home.html', context)
+
+def ProjectMenagerHomeView(request):
+    
+    context = {}
+    return render(request, 'employees/project_menager_home.html', context)
+
+def DirectorHomeView(request):
+    
+    context = {}
+    return render(request, 'employees/director_home.html', context)
         
         
