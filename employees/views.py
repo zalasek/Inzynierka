@@ -63,6 +63,7 @@ def AccountsHomeView(request):
 
 def ProjectMenagerHomeView(request):
 
+    context = {}
     return render(request, 'employees/project_menager_home.html', context)
 
 def DirectorHomeView(request):
