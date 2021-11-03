@@ -4,6 +4,7 @@ from django.contrib.auth import login
 from .models import Employee
 from .forms import EmployeeForm, ExtendedUserCreationForm # do edycji w razie potrzeby, (zamienic z UserCreationForm)
 from django.contrib.auth.forms import UserCreationForm
+from documents.models import Document
 
 from django.contrib import messages
 
@@ -61,13 +62,15 @@ def AccountsHomeView(request):
     return render(request, 'employees/accounts_home.html', context)
 
 def ProjectMenagerHomeView(request):
-    
-    context = {}
+
     return render(request, 'employees/project_menager_home.html', context)
 
 def DirectorHomeView(request):
-    
-    context = {}
+    products = Document.objects.filter(type = 'product').filter(approved = False)
+    services = Document.objects.filter(type = 'service').filter(approved = False) 
+
+    context = {'products':products,
+               'services':services}
     return render(request, 'employees/director_home.html', context)
         
         

@@ -1,1 +1,30 @@
-DIRECTOR HOME
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <h3> Product bills: </h3>
+         {% for  product in products  %}
+             DOCUMENT NAME: {{product.document_file}} <br>
+            <a href='{% url 'document-detail' product.id %}'> VIEW </a> 
+            <hr>
+         {% endfor %}
+
+        <br> <br>
+        <h3> Service bills: </h3>
+         {% for  service in services  %}
+             DOCUMENT NAME: {{service.document_file}} <br>
+            <a href='{% url 'document-detail' service.id %}'> VIEW </a>  
+            <hr>
+                 
+         {% endfor %}
+    </body>
+</html>
+
