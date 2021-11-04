@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <form method='POST'> 
     {% csrf_token %} 
     {{form_user.username.label}} <br>
@@ -9,6 +10,18 @@
     {{form_employee.position.label}} <br>
     {{form_employee.position}} <br> 
     <input type='submit' value='Register' >
+=======
+<form method='POST'> {% csrf_token %} 
+{{form_user.username.label}} <br>
+{{form_user.username}} <br>
+{{form_user.password1.label}} <br>
+{{form_user.password1}} <br>
+{{form_user.password2.label}} <br>
+{{form_user.password2}} <br>
+{{form_employee.position.label}} <br>
+{{form_employee.position}} <br>
+<input type='submit' value='Register' >
+>>>>>>> 50d1113df6d65a0ec1fde7837d4c41f922645106
 </form>
 
 {{form_user.errors}}

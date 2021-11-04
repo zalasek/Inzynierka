@@ -64,15 +64,16 @@ def DocumentUpdateView(request, pk):
     if request.method == 'POST':
         
         owner = request.user
-        approved = request.POST.get('approved')
+        type = request.POST.get('type')
         document_file = request.FILES['document_file']
         
         fs = FileSystemStorage()
         document_file = fs.save(document_file.name, document_file)
         
+        Document.objects.filter(id = pk).update(type = type)
         Document.objects.filter(id = pk).update(document_file = document_file)
         Document.objects.filter(id = pk).update(owner = owner)
-        Document.objects.filter(id = pk).update(approved = approved.capitalize())
+        
         return redirect('document-list')
     else:
         return render(request, 'documents/document_update.html', context)

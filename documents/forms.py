@@ -6,8 +6,9 @@ class DocumentForm(forms.ModelForm):
     class Meta:
         model=Document
         fields = [
-            'approved',
+            'type',
             'document_file',
+            'description',
         ]
         
 

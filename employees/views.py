@@ -4,6 +4,7 @@ from django.contrib.auth import login
 from .models import Employee
 from .forms import EmployeeForm, ExtendedUserCreationForm # do edycji w razie potrzeby, (zamienic z UserCreationForm)
 from django.contrib.auth.forms import UserCreationForm
+from documents.models import Document
 
 from django.contrib import messages
 
@@ -19,8 +20,17 @@ def LoginView(request):
         if user is not None:    
             
             login(request, user)
+<<<<<<< HEAD
             return redirect('document-list')
 
+=======
+            if user.employee.position == 'director':
+                return redirect('director_home')
+            if user.employee.position == 'project_menager':
+                return redirect('project_menager_home')
+            if user.employee.position == 'accounts':
+                return redirect('accounts_home')
+>>>>>>> 50d1113df6d65a0ec1fde7837d4c41f922645106
     context = {}
     return render(request, 'employees/login.html', context)
 
@@ -53,6 +63,7 @@ def EmployeeCreateView(request):
     return render(request, 'employees/register.html', context)
 
 def AccountsHomeView(request):
+<<<<<<< HEAD
 
 
     context = {}
@@ -71,5 +82,23 @@ def ProjectMenagerHomeView(request):
 
     context = {}
     return render(request, 'employees/projectmenager_home.html', context)
+=======
+    
+    context = {}
+    return render(request, 'employees/accounts_home.html', context)
+
+def ProjectMenagerHomeView(request):
+
+    context = {}
+    return render(request, 'employees/project_menager_home.html', context)
+
+def DirectorHomeView(request):
+    products = Document.objects.filter(type = 'product').filter(approved = False)
+    services = Document.objects.filter(type = 'service').filter(approved = False) 
+
+    context = {'products':products,
+               'services':services}
+    return render(request, 'employees/director_home.html', context)
+>>>>>>> 50d1113df6d65a0ec1fde7837d4c41f922645106
         
         
