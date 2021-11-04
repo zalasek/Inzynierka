@@ -1,13 +1,14 @@
-<form method='POST'> {% csrf_token %} 
-{{form_user.username.label}} <br>
-{{form_user.username}} <br>
-{{form_user.password1.label}} <br>
-{{form_user.password1}} <br>
-{{form_user.password2.label}} <br>
-{{form_user.password2}} <br>
-{{form_employee.age.label}} <br>
-{{form_employee.age}} <br> 
-<input type='submit' value='Register' >
+<form method='POST'> 
+    {% csrf_token %} 
+    {{form_user.username.label}} <br>
+    {{form_user.username}} <br>
+    {{form_user.password1.label}} <br>
+    {{form_user.password1}} <br>
+    {{form_user.password2.label}} <br>
+    {{form_user.password2}} <br>
+    {{form_employee.position.label}} <br>
+    {{form_employee.position}} <br> 
+    <input type='submit' value='Register' >
 </form>
 
 {{form_user.errors}}

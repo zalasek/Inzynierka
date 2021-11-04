@@ -17,8 +17,10 @@ def LoginView(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:    
+            
             login(request, user)
             return redirect('document-list')
+
     context = {}
     return render(request, 'employees/login.html', context)
 
@@ -49,5 +51,25 @@ def EmployeeCreateView(request):
         form_employee = EmployeeForm()
     context = {'form_user': form_user, 'form_employee': form_employee}
     return render(request, 'employees/register.html', context)
+
+def AccountsHomeView(request):
+
+
+    context = {}
+    return render(request, 'employees/accounts_home.html', context)
+
+
+def DirectorHomeView(request):
+    
+
+    context = {}
+    return render(request, 'employees/director_home.html', context)
+
+
+def ProjectMenagerHomeView(request):
+    
+
+    context = {}
+    return render(request, 'employees/projectmenager_home.html', context)
         
         

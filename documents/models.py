@@ -13,16 +13,11 @@ class Document(models.Model):
     document_file = models.FileField(null=True, blank=True)
     
     def __str__(self) -> str:
-<<<<<<< HEAD
         return str(self.document_file)
     
 
 
 
-=======
-        return str(self.document_file.url)
-
->>>>>>> 19c65c8974fcdc77890cacfdf5e37bf33e47cbcd
 
 
 
