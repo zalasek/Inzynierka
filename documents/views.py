@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import Document
-from .forms import DocumentForm
+from .forms import DocumentForm, AssignmentForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth import authenticate, login, logout 
 from django.conf import settings
@@ -77,6 +77,19 @@ def DocumentUpdateView(request, pk):
         return redirect('document-list')
     else:
         return render(request, 'documents/document_update.html', context)
+
+
+
+def DocumentAssignView(request, pk):
+    if request.method == 'POST':
+        form_assignment = AssignmentForm(request.POST)
+        if form_assignment.is_valid():
+            form_assignment.save()
+            return redirect('accounts_home')
+    else:
+        form_assignment = AssignmentForm()
+        context = {'form_assignment':form_assignment}
+        return render(request, 'documents/document_assign.html', context)
     
     
  

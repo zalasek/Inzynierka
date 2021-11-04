@@ -11,7 +11,7 @@
     </head>
     <body>
         <h3> Product bills: </h3>
-         {% for  product in products  %}
+         {% for  product in products_not_approved  %}
              DOCUMENT NAME: {{product.document_file}} <br>
             <a href='{% url 'document-detail' product.id %}'> VIEW </a> 
             <hr>
@@ -19,7 +19,7 @@
 
         <br> <br>
         <h3> Service bills: </h3>
-         {% for  service in services  %}
+         {% for  service in services_not_approved  %}
              DOCUMENT NAME: {{service.document_file}} <br>
             <a href='{% url 'document-detail' service.id %}'> VIEW </a>  
             <hr>

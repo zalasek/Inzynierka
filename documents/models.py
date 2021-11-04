@@ -16,9 +16,13 @@ class Document(models.Model):
     document_file = models.FileField(null=True, blank=True)
     type = models.CharField(max_length=30, null=True, blank=True, choices=type_choice)
     
-    
     def __str__(self) -> str:
         return str(self.document_file)
+
+class Assignment(models.Model):
+    #test = models.CharField(max_length=50, null=True, blank=True)
+    document = models.ForeignKey(Document, on_delete=CASCADE, null=True, blank=True)
+    employee = models.ForeignKey(Employee, on_delete=CASCADE, null=True, blank=True)
     
 
 

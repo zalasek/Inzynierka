@@ -74,8 +74,12 @@ def AccountsHomeView(request):
     if not request.user.is_authenticated:
             return redirect('login')
     else:
-        if request.user.employee.position == 'accounts': 
-            context = {}
+        if request.user.employee.position == 'accounts':
+            documents_not_approved = Document.objects.filter(approved = False)
+            documents_approved = Document.objects.filter(approved = True) 
+
+            context = {'documents_not_approved':documents_not_approved,
+                        'documents_approved':documents_approved,}            
             return render(request, 'employees/accounts_home.html', context)
         else:
             return redirect('login')
@@ -97,20 +101,19 @@ def ProjectMenagerHomeView(request):
 
 
 
-
-
-
-
-
 def DirectorHomeView(request):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
         if request.user.employee.position == 'director':
-            products = Document.objects.filter(type = 'product').filter(approved = False)
-            services = Document.objects.filter(type = 'service').filter(approved = False) 
-            context = {'products':products,
-                        'services':services}
+            products_not_approved = Document.objects.filter(type = 'product').filter(approved = False)
+            services_not_approved = Document.objects.filter(type = 'service').filter(approved = False) 
+            products_approved = Document.objects.filter(type = 'product').filter(approved = True)
+            services_approved = Document.objects.filter(type = 'service').filter(approved = True) 
+            context = {'products_not_approved':products_not_approved,
+                        'services_not_approved':services_not_approved,
+                        'products_approved':products_approved,
+                        'services_approved':services_approved,}
             return render(request, 'employees/director_home.html', context)
         else:
             return redirect('login')
