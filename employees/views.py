@@ -18,25 +18,31 @@ def LoginView(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:    
-            
             login(request, user)
-<<<<<<< HEAD
-            return redirect('document-list')
-
-=======
             if user.employee.position == 'director':
                 return redirect('director_home')
             if user.employee.position == 'project_menager':
                 return redirect('project_menager_home')
             if user.employee.position == 'accounts':
                 return redirect('accounts_home')
->>>>>>> 50d1113df6d65a0ec1fde7837d4c41f922645106
     context = {}
     return render(request, 'employees/login.html', context)
+
+
+
+
+
+
 
 def LogoutView( request):
     logout(request)
     return redirect('login')
+
+
+
+
+
+
 
 
 def EmployeeCreateView(request):
@@ -54,51 +60,65 @@ def EmployeeCreateView(request):
             password = form_user.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('document-list')
-        
+            return redirect('document-list')     
     else:
         form_user = UserCreationForm()
         form_employee = EmployeeForm()
     context = {'form_user': form_user, 'form_employee': form_employee}
     return render(request, 'employees/register.html', context)
 
+
+
+
 def AccountsHomeView(request):
-<<<<<<< HEAD
+    if not request.user.is_authenticated:
+            return redirect('login')
+    else:
+        if request.user.employee.position == 'accounts': 
+            context = {}
+            return render(request, 'employees/accounts_home.html', context)
+        else:
+            return redirect('login')
 
 
-    context = {}
-    return render(request, 'employees/accounts_home.html', context)
+
+
+
+def ProjectMenagerHomeView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        if request.user.employee.position == 'project_menager':
+            context = {}
+            return render(request, 'employees/project_menager_home.html', context)
+        else:
+            return redirect('login')
+
+
+
+
+
+
+
 
 
 def DirectorHomeView(request):
-    
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        if request.user.employee.position == 'director':
+            products = Document.objects.filter(type = 'product').filter(approved = False)
+            services = Document.objects.filter(type = 'service').filter(approved = False) 
+            context = {'products':products,
+                        'services':services}
+            return render(request, 'employees/director_home.html', context)
+        else:
+            return redirect('login')
 
-    context = {}
-    return render(request, 'employees/director_home.html', context)
 
 
-def ProjectMenagerHomeView(request):
-    
 
-    context = {}
-    return render(request, 'employees/projectmenager_home.html', context)
-=======
-    
-    context = {}
-    return render(request, 'employees/accounts_home.html', context)
 
-def ProjectMenagerHomeView(request):
 
-    context = {}
-    return render(request, 'employees/project_menager_home.html', context)
-
-def DirectorHomeView(request):
-    products = Document.objects.filter(type = 'product').filter(approved = False)
-    services = Document.objects.filter(type = 'service').filter(approved = False) 
-
-    context = {'products':products,
-               'services':services}
-    return render(request, 'employees/director_home.html', context)
->>>>>>> 50d1113df6d65a0ec1fde7837d4c41f922645106
         
         
