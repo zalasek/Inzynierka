@@ -4,12 +4,16 @@ from .forms import DocumentForm, AssignmentForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth import authenticate, login, logout 
 from django.conf import settings
+from employees.models import Employee
 
 
 
 def DocumentListView(request):
     owner_id = request.user.id
     documents = Document.objects.filter(owner=owner_id)
+
+    pm = Employee.objects.filter(position = 'project_menager')
+    print(pm[1])
     context = {'documents' : documents}
     return render(request, 'documents/document_list.html', context)
 

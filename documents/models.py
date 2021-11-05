@@ -31,8 +31,13 @@ class Document(models.Model):
 
 class Assignment(models.Model):
     # przypisanie faktury przez dyrektora do PM'a
+    # pm = Employee.objects.filter(position = 'project_menager')
+
+ 
+
+
     document = models.ForeignKey(Document, on_delete=CASCADE, null=True, blank=True) 
-    employee = models.ForeignKey(Employee, on_delete=CASCADE, null=True, blank=True)
+    employee = models.ForeignKey(Employee, on_delete=CASCADE, null=True, blank=True, limit_choices_to={'position':'project_menager'})
     
 
 
