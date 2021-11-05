@@ -6,22 +6,32 @@ from employees.models import Employee
 
 # Create your models here.
 class Document(models.Model):
-    type_choice = [
-                    ('product', 'Product'),
-                    ('service', 'Service'),]
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    description = models.TextField(max_length=300, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False, null=True, blank=True)
-    document_file = models.FileField(null=True, blank=True)
-    type = models.CharField(max_length=30, null=True, blank=True, choices=type_choice)
+    type_choice = [ ('product', 'Product'),
+                    ('service', 'Service'),]  # podział faktur na produkt / usługę 
+    status_choice = [ ('1', 'Divided'),
+                      ('2', 'Waiting for checks'),
+                      ('3', 'Checked'),
+                      ('4', 'Approved'),
+                      ('5', 'Waiting for payment'),
+                      ('6', 'Paid')
+    ]
     
+    title = models.CharField(max_length=250, blank=True, null=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True) # osoba która dodała dokument
+    description = models.TextField(max_length=1000, blank=True, null=True) # opis dokumentu
+    created = models.DateTimeField(auto_now_add=True) # czas i data stworzenia
+    approved_director = models.BooleanField(default=False, null=True, blank=True) # czy została zatwierdzona przez dyrektora 
+    approved_pm = models.BooleanField(default=False, null=True, blank=True) # czy została zatwierdzona przez project menagera
+    document_file = models.FileField(null=True, blank=True) # plik dokumentu 
+    type = models.CharField(max_length=30, null=True, blank=True, choices=type_choice) # rodzaj faktury
+    status = models.CharField(max_length=50, null=True, blank=True, choices=status_choice) # obecny status dokumentu
+
     def __str__(self) -> str:
-        return str(self.document_file)
+        return str(self.title)
 
 class Assignment(models.Model):
-    #test = models.CharField(max_length=50, null=True, blank=True)
-    document = models.ForeignKey(Document, on_delete=CASCADE, null=True, blank=True)
+    # przypisanie faktury przez dyrektora do PM'a
+    document = models.ForeignKey(Document, on_delete=CASCADE, null=True, blank=True) 
     employee = models.ForeignKey(Employee, on_delete=CASCADE, null=True, blank=True)
     
 

@@ -1,4 +1,11 @@
 <form method='POST' enctype="multipart/form-data"> {% csrf_token %}
-{{form.as_p}}
+{{form.title.label}} <br>
+{{form.title}} <br>
+{{form.description.label}} <br>
+{{form.description}} <br>
+{{form.document_file.label}} <br>
+{{form.document_file}} <br>
+{{form.type.label}} <br>
+{{form.type}} <br>
 <input type='submit' value='Upload'>
 </form>

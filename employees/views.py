@@ -2,12 +2,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from django.contrib.auth import login
 from .models import Employee
-from .forms import EmployeeForm, ExtendedUserCreationForm # do edycji w razie potrzeby, (zamienic z UserCreationForm)
+from .forms import EmployeeForm
 from django.contrib.auth.forms import UserCreationForm
 from documents.models import Document
-
-from django.contrib import messages
-
 
 # Create your views here.
 
@@ -28,22 +25,9 @@ def LoginView(request):
     context = {}
     return render(request, 'employees/login.html', context)
 
-
-
-
-
-
-
 def LogoutView( request):
     logout(request)
     return redirect('login')
-
-
-
-
-
-
-
 
 def EmployeeCreateView(request):
     if request.method == 'POST':
@@ -75,8 +59,8 @@ def AccountsHomeView(request):
             return redirect('login')
     else:
         if request.user.employee.position == 'accounts':
-            documents_not_approved = Document.objects.filter(approved = False)
-            documents_approved = Document.objects.filter(approved = True) 
+            documents_not_approved = Document.objects.filter(approved_director = False)
+            documents_approved = Document.objects.filter(approved_director = True) 
 
             context = {'documents_not_approved':documents_not_approved,
                         'documents_approved':documents_approved,}            
@@ -105,21 +89,26 @@ def DirectorHomeView(request):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        if request.user.employee.position == 'director':
-            products_not_approved = Document.objects.filter(type = 'product').filter(approved = False)
-            services_not_approved = Document.objects.filter(type = 'service').filter(approved = False) 
-            products_approved = Document.objects.filter(type = 'product').filter(approved = True)
-            services_approved = Document.objects.filter(type = 'service').filter(approved = True) 
-            context = {'products_not_approved':products_not_approved,
-                        'services_not_approved':services_not_approved,
-                        'products_approved':products_approved,
-                        'services_approved':services_approved,}
+        if request.user.employee.position == 'director_products':
+            # products
+            not_approved_director = Document.objects.filter(type = 'product').filter(approved_director = False).filter(approved_pm = True)
+            not_approved_pm = Document.objects.filter(type = 'product').filter(approved_director = False).filter(approved_pm = False)
+
+            context = {'not_approved_director':not_approved_director,
+                        'not_approved_pm':not_approved_pm}
+
+            return render(request, 'employees/director_home.html', context)
+
+        elif request.user.employee.position == 'director_products':
+            # services
+            not_approved_director = Document.objects.filter(type = 'service').filter(approved_director = False).filter(approved_pm = True)
+            not_approved_pm = Document.objects.filter(type = 'service').filter(approved_director = False).filter(approved_pm = False)
+
+            context = {'not_approved_director':not_approved_director,
+                        'not_approved_pm':not_approved_pm}
             return render(request, 'employees/director_home.html', context)
         else:
             return redirect('login')
-
-
-
 
 
 

@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Document
+from .models import Document, Assignment
 from .forms import DocumentForm, AssignmentForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth import authenticate, login, logout 
@@ -37,7 +37,7 @@ def DocumentCreateView(request):
             document = form.save(commit=False)
             document.owner = request.user
             document.save()
-            return redirect('document-list')      
+            return redirect('accounts_home')      
     else:   
         form = DocumentForm()  #gdy wczytamy stronę z formularzem
     context = {'form':form} 
@@ -83,8 +83,11 @@ def DocumentUpdateView(request, pk):
 def DocumentAssignView(request, pk):
     if request.method == 'POST':
         form_assignment = AssignmentForm(request.POST)
+
         if form_assignment.is_valid():
-            form_assignment.save()
+            assignment = form_assignment.save(commit=False)
+            assignment.document = Document.objects.get(id = pk)
+            assignment.save()
             return redirect('accounts_home')
     else:
         form_assignment = AssignmentForm()

@@ -6,7 +6,8 @@ from django.contrib.auth.models import User
 class Employee(models.Model):
     position_choice = [
     ('accounts', 'Accounts'),
-    ('director', 'Director'),
+    ('director_products', 'Products Director'),
+    ('director_services', 'Services Director'),
     ('project_menager', 'Project Menager'),
 ]
     

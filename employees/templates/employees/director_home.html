@@ -10,21 +10,20 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <h3> Product bills: </h3>
-         {% for  product in products_not_approved  %}
-             DOCUMENT NAME: {{product.document_file}} <br>
-            <a href='{% url 'document-detail' product.id %}'> VIEW </a> 
+            <h1>Waiting for PM approval</h1>
+        {% for document in not_approved_pm %}
+             DOCUMENT NAME: {{document.title}} <br>
+            <a href='{% url 'document-detail' document.id %}'> VIEW </a> <br>
+            <a href='{% url 'document-assign' document.id %}'> Assign </a>
             <hr>
-         {% endfor %}
+        {% endfor %}
 
-        <br> <br>
-        <h3> Service bills: </h3>
-         {% for  service in services_not_approved  %}
-             DOCUMENT NAME: {{service.document_file}} <br>
-            <a href='{% url 'document-detail' service.id %}'> VIEW </a>  
-            <hr>
-                 
-         {% endfor %}
+        <br><br><br><br><br><br>
+        <h1> Approved by PM, waiting for approval</h1>
+        {% for document in not_approved_director %}
+             DOCUMENT NAME: {{document.title}} <br>
+            <a href='{% url 'document-detail' document.id %}'> View </a><hr>
+        {% endfor %}
     </body>
 </html>
 

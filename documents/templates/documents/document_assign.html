@@ -11,8 +11,6 @@
     </head>
     <body>
         <form method='POST'> {% csrf_token %} 
-        {{form_assignment.document.label}} <br>
-        {{form_assignment.document}} <br>
         {{form_assignment.employee.label}} <br>
         {{form_assignment.employee}} <br>
         <input type='submit' value='Assign' >

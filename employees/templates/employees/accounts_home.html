@@ -17,20 +17,6 @@
         <h3> <a href='{% url 'document-list' %}'> View all documents</a></h3>
         <br><br><br><br><br><br>
 
-        <h1> NOT APPROVED </h1>
-        {% for document_not_approved in documents_not_approved %}
-             DOCUMENT NAME: {{document_not_approved.document_file}} <br>
-            <a href='{% url 'document-detail' document_not_approved.id %}'> VIEW </a> <br>
-            <a href='{% url 'document-assign' document_not_approved.id %}'> ASSIGN </a>
-            <hr>
-        {% endfor %}
 
-        <br><br><br><br><br><br>
-        <h1> APPROVED </h1>
-        {% for document_approved in documents_approved %}
-             DOCUMENT NAME: {{document_approved.document_file}} <br>
-            <a href='{% url 'document-detail' document_approved.id %}'> VIEW </a>
-            <hr>
-        {% endfor %}
     </body>
 </html>
