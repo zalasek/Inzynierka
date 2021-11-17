@@ -9,7 +9,15 @@ from documents.models import Document
 # Create your views here.
 
 def LoginView(request):
-    if request.method == 'POST':
+    if request.user.is_authenticated:
+        if request.user.employee.position == 'director':
+            return redirect('director_home')
+        if request.user.employee.position == 'project_menager':
+            return redirect('project_menager_home')
+        if request.user.employee.position == 'accounts':
+            return redirect('accounts_home')
+        
+    elif request.method == 'POST':
         username = request.POST.get('username') 
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
@@ -22,8 +30,9 @@ def LoginView(request):
                 return redirect('project_menager_home')
             if user.employee.position == 'accounts':
                 return redirect('accounts_home')
-    context = {}
-    return render(request, 'employees/login.html', context)
+    else:
+        context = {}
+        return render(request, 'employees/login.html', context)
 
 def LogoutView( request):
     logout(request)
