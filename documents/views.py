@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import Document, Assignment
-from .forms import DocumentForm, AssignmentForm
+from .forms import DocumentForm, AssignmentForm, FileForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth import authenticate, login, logout 
 from django.conf import settings
@@ -61,20 +61,44 @@ def DocumentDeleteView(request, pk):
 def DocumentUpdateView(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
-    form = DocumentForm(request.POST , request.FILES)
-    context = {'form':form}
+    document = Document.objects.get(id = pk)
+    initial_data = {
+        'title':  document.title,
+        'owner':  document.owner, 
+        'description': document.description,  
+        'approved_director': document.approved_director,  
+        'approved_pm':  document.approved_pm, 
+        'document_file': document.document_file, 
+        'type': document.type, 
+        'status': document.status 
+    }
+    print(initial_data.get('document_file'))
+    form = DocumentForm(initial=initial_data)
+    file_form = FileForm(request.FILES, initial=initial_data)
+    context = {'form':form, 'file_form':file_form}
     if request.method == 'POST':
         
-        owner = request.user
-        type = request.POST.get('type')
+        title = request.POST['title']
+        owner = request.POST['owner']
+        description = request.POST['description']
+        approved_director = request.POST['approved_director']
+        approved_pm = request.POST['approved_pm']
+        type = request.POST['type']
+        status = request.POST['status']
         document_file = request.FILES['document_file']
-        
+ 
+        Document.objects.filter(id = pk).update(title = title)
+        Document.objects.filter(id = pk).update(owner = owner)
+        Document.objects.filter(id = pk).update(description = description)
+        Document.objects.filter(id = pk).update(approved_director = approved_director)
+        Document.objects.filter(id = pk).update(approved_pm = approved_pm)
+        Document.objects.filter(id = pk).update(status = status)
+        Document.objects.filter(id = pk).update(document_file = document_file)
+    
         fs = FileSystemStorage()
         document_file = fs.save(document_file.name, document_file)
+ 
         
-        Document.objects.filter(id = pk).update(type = type)
-        Document.objects.filter(id = pk).update(document_file = document_file)
-        Document.objects.filter(id = pk).update(owner = owner)
         
         return redirect('document-list')
     else:

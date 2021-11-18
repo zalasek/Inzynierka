@@ -79,8 +79,6 @@ def AccountsHomeView(request):
 
 
 
-
-
 def ProjectMenagerHomeView(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -90,7 +88,6 @@ def ProjectMenagerHomeView(request):
             return render(request, 'employees/project_menager_home.html', context)
         else:
             return redirect('login')
-
 
 
 

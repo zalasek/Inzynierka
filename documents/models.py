@@ -20,8 +20,8 @@ class Document(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True) # osoba która dodała dokument
     description = models.TextField(max_length=1000, blank=True, null=True) # opis dokumentu
     created = models.DateTimeField(auto_now_add=True) # czas i data stworzenia
-    approved_director = models.BooleanField(default=False, null=True, blank=True) # czy została zatwierdzona przez dyrektora 
-    approved_pm = models.BooleanField(default=False, null=True, blank=True) # czy została zatwierdzona przez project menagera
+    approved_director = models.BooleanField(default=False, null=True, blank=True, choices=((False, 'No'), (True,'Yes'))) # czy została zatwierdzona przez dyrektora 
+    approved_pm = models.BooleanField(default=False, null=True, blank=True, choices=((False, 'No'), (True,'Yes'))) # czy została zatwierdzona przez project menagera
     document_file = models.FileField(null=True, blank=True) # plik dokumentu 
     type = models.CharField(max_length=30, null=True, blank=True, choices=type_choice) # rodzaj faktury
     status = models.CharField(max_length=50, null=True, blank=True, choices=status_choice) # obecny status dokumentu
@@ -30,11 +30,6 @@ class Document(models.Model):
         return str(self.title)
 
 class Assignment(models.Model):
-    # przypisanie faktury przez dyrektora do PM'a
-    # pm = Employee.objects.filter(position = 'project_menager')
-
- 
-
 
     document = models.ForeignKey(Document, on_delete=CASCADE, null=True, blank=True) 
     employee = models.ForeignKey(Employee, on_delete=CASCADE, null=True, blank=True, limit_choices_to={'position':'project_menager'})
