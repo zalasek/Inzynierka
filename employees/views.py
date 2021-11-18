@@ -10,7 +10,7 @@ from documents.models import Document
 
 def LoginView(request):
     if request.user.is_authenticated:
-        if request.user.employee.position == 'director':
+        if request.user.employee.position == 'director_products':
             return redirect('director_home')
         if request.user.employee.position == 'project_menager':
             return redirect('project_menager_home')

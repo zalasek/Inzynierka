@@ -8,12 +8,12 @@ from employees.models import Employee
 class Document(models.Model):
     type_choice = [ ('product', 'Product'),
                     ('service', 'Service'),]  # podział faktur na produkt / usługę 
-    status_choice = [ ('1', 'Divided'),
-                      ('2', 'Waiting for checks'),
-                      ('3', 'Checked'),
-                      ('4', 'Approved'),
-                      ('5', 'Waiting for payment'),
-                      ('6', 'Paid')
+    status_choice = [ ('Assigned to director', 'Assigned to director'),
+                      ('Waiting', 'Waiting for checks'),
+                      ('Checked', 'Checked'),
+                      ('Approved', 'Approved'),
+                      ('Waiting for payment', 'Waiting for payment'),
+                      ('Paid', 'Paid')
     ]
     
     title = models.CharField(max_length=250, blank=True, null=True)
@@ -33,8 +33,12 @@ class Assignment(models.Model):
 
     document = models.ForeignKey(Document, on_delete=CASCADE, null=True, blank=True) 
     employee = models.ForeignKey(Employee, on_delete=CASCADE, null=True, blank=True, limit_choices_to={'position':'project_menager'})
-    
 
+class Comment(models.Model):
+    document = models.ForeignKey(Document, on_delete=CASCADE, null=True, blank=True) 
+    employee = models.ForeignKey(Employee, on_delete=CASCADE, null=True, blank=True) 
+    comment = models.TextField(blank=False, null=False)
+    created = models.DateTimeField(auto_now_add=True)
 
 
 

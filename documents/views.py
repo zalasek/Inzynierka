@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import Document, Assignment
-from .forms import DocumentForm, AssignmentForm, FileForm
+from .forms import DocumentForm, AssignmentForm, FileForm, CommentForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth import authenticate, login, logout 
 from django.conf import settings
@@ -9,13 +9,20 @@ from employees.models import Employee
 
 
 def DocumentListView(request):
-    owner_id = request.user.id
-    documents = Document.objects.filter(owner=owner_id)
-
+    if not request.user.is_authenticated:
+        return redirect('login')     
+    documents = Document.objects.all()
     context = {'documents' : documents}
     return render(request, 'documents/document_list.html', context)
 
+# def DocumentPersonalListView(request):
+#     if not request.user.is_authenticated:
+#         return redirect('login')    
+#     owner_id = request.user.id
+#     documents = Document.objects.filter(owner=owner_id)
 
+#     context = {'documents' : documents}
+#     return render(request, 'documents/document_list.html', context)
 
 
 def DocumentDetailView(request, pk):
@@ -24,8 +31,6 @@ def DocumentDetailView(request, pk):
     document = Document.objects.get(id=pk) 
     context = {'document':document}
     return render(request, 'documents/document_detail.html', context)
-
-
 
 
 
@@ -74,7 +79,7 @@ def DocumentUpdateView(request, pk):
     }
     print(initial_data.get('document_file'))
     form = DocumentForm(initial=initial_data)
-    file_form = FileForm(request.FILES, initial=initial_data)
+    file_form = FileForm(request.FILES)
     context = {'form':form, 'file_form':file_form}
     if request.method == 'POST':
         
@@ -85,20 +90,19 @@ def DocumentUpdateView(request, pk):
         approved_pm = request.POST['approved_pm']
         type = request.POST['type']
         status = request.POST['status']
-        document_file = request.FILES['document_file']
- 
+  
+        if  bool(request.FILES.get('document_file', False)) == True:
+            document_file = request.FILES['document_file']
+            fs = FileSystemStorage()
+            document_file = fs.save(document_file.name, document_file)
+            Document.objects.filter(id = pk).update(document_file = document_file)
+        
         Document.objects.filter(id = pk).update(title = title)
         Document.objects.filter(id = pk).update(owner = owner)
         Document.objects.filter(id = pk).update(description = description)
         Document.objects.filter(id = pk).update(approved_director = approved_director)
         Document.objects.filter(id = pk).update(approved_pm = approved_pm)
         Document.objects.filter(id = pk).update(status = status)
-        Document.objects.filter(id = pk).update(document_file = document_file)
-    
-        fs = FileSystemStorage()
-        document_file = fs.save(document_file.name, document_file)
- 
-        
         
         return redirect('document-list')
     else:
@@ -107,6 +111,8 @@ def DocumentUpdateView(request, pk):
 
 
 def DocumentAssignView(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         form_assignment = AssignmentForm(request.POST)
 
@@ -120,6 +126,25 @@ def DocumentAssignView(request, pk):
         context = {'form_assignment':form_assignment}
         return render(request, 'documents/document_assign.html', context)
     
+    
+def DocumentCommentView(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login') 
+       
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.document = Document.objects.get(id = pk)
+            comment.employee = Employee.objects.get(employee = request.user)
+            comment.save()
+            return redirect('login') 
+    else:
+        form = CommentForm()
+        context = {'form':form}
+        return render(request, 'documents/document_comment.html', context)
+    
+
     
  
         

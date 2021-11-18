@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Document, Assignment
+from .models import Comment, Document, Assignment
 
 class DocumentForm(forms.ModelForm):
     class Meta:
@@ -22,6 +22,11 @@ class AssignmentForm(forms.ModelForm):
     class Meta:
         model = Assignment
         fields = ['document', 'employee']
+        
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment']
         
 
         
