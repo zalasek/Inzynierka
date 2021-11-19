@@ -28,19 +28,15 @@ def DocumentListView(request):
 def DocumentDetailView(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')    
-    
-    #KUUUUUUUUURRRRRRWWWWWWWWWWAAAAAAAAAAAAA
     document = Document.objects.get(id=pk)
-    #print(Document.comment)
-    
-    if Document.objects.filter(id=pk).exists():
-        comment = Document.objects.get(id=pk) 
+      
+    if Comment.objects.filter(document = document).exists():
+        comments = Comment.objects.filter(document = document)
         context = {'document':document,
-                    'comments':comment}
+                    'comments':comments}
         print('lol')
     else:    
         context = {'document':document}
-        
     print(context)
     return render(request, 'documents/document_detail.html', context)
 
