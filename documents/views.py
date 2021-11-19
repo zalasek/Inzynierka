@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .models import Document, Assignment
+from .models import Comment, Document, Assignment
 from .forms import DocumentForm, AssignmentForm, FileForm, CommentForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth import authenticate, login, logout 
@@ -28,10 +28,21 @@ def DocumentListView(request):
 def DocumentDetailView(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')    
-    document = Document.objects.get(id=pk) 
-    context = {'document':document}
+    
+    #KUUUUUUUUURRRRRRWWWWWWWWWWAAAAAAAAAAAAA
+    document = Document.objects.get(id=pk)
+    #print(Document.comment)
+    
+    if Document.objects.filter(id=pk).exists():
+        comment = Document.objects.get(id=pk) 
+        context = {'document':document,
+                    'comments':comment}
+        print('lol')
+    else:    
+        context = {'document':document}
+        
+    print(context)
     return render(request, 'documents/document_detail.html', context)
-
 
 
 def DocumentCreateView(request):
@@ -49,7 +60,6 @@ def DocumentCreateView(request):
         form = DocumentForm()  #gdy wczytamy stronę z formularzem
     context = {'form':form} 
     return render(request, 'documents/document_create.html', context)
-
 
 
 def DocumentDeleteView(request, pk):
@@ -107,7 +117,6 @@ def DocumentUpdateView(request, pk):
         return redirect('document-list')
     else:
         return render(request, 'documents/document_update.html', context)
-
 
 
 def DocumentAssignView(request, pk):

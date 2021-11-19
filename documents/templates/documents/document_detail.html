@@ -10,7 +10,15 @@
     DOCUMENT FILE: {{document.document_file}} <br>
     TYPE: {{document.type}} <br>
     STATUS: {{document.status}} <br>
+    <br> <h1> COMMENTS: </h1>
 
+    
+    Author: {{comments.employee}} <br>
+    Comment: {{comments.comment}} <br>
+    <hr>
+    
+    
+     
     <a href='media/{{document.document_file}}'> {{document.document_file}} </a> <br>
     <a href='{% url 'document-update' document.id%}'> UPDATE DOCUMENT </a> <br>
     <a href='{% url 'document-delete' document.id%}'> DELETE DOCUMENT </a> <br>

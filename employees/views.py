@@ -12,6 +12,8 @@ def LoginView(request):
     if request.user.is_authenticated:
         if request.user.employee.position == 'director_products':
             return redirect('director_home')
+        if request.user.employee.position == 'director_services':
+            return redirect('director_home')
         if request.user.employee.position == 'project_menager':
             return redirect('project_menager_home')
         if request.user.employee.position == 'accounts':
@@ -105,7 +107,7 @@ def DirectorHomeView(request):
 
             return render(request, 'employees/director_home.html', context)
 
-        elif request.user.employee.position == 'director_products':
+        elif request.user.employee.position == 'director_services':
             # services
             not_approved_director = Document.objects.filter(type = 'service').filter(approved_director = False).filter(approved_pm = True)
             not_approved_pm = Document.objects.filter(type = 'service').filter(approved_director = False).filter(approved_pm = False)
