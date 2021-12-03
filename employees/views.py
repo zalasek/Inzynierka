@@ -32,6 +32,8 @@ def LoginView(request):
                 return redirect('project_menager_home')
             if user.employee.position == 'accounts':
                 return redirect('accounts_home')
+        else:
+            return redirect('login')
     else:
         context = {}
         return render(request, 'employees/login.html', context)
