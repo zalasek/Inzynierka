@@ -30,7 +30,6 @@ class Document(models.Model):
         return str(self.title)
 
 class Assignment(models.Model):
-
     document = models.ForeignKey(Document, on_delete=CASCADE, null=True, blank=True) 
     employee = models.ForeignKey(Employee, on_delete=CASCADE, null=True, blank=True, limit_choices_to={'position':'project_menager'})
 

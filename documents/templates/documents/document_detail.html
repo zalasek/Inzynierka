@@ -1,4 +1,7 @@
-    
+
+
+{% extends 'employees\base_accounts.html' %}
+{% block content %}
     
     ID: {{document.id}} <br>
     TITLE: {{document.title}} <br>
@@ -22,3 +25,4 @@
     <a href='{% url 'document-delete' document.id%}'> DELETE DOCUMENT </a> <br>
     <a href='{% url 'document-comment' document.id%}'> ADD COMMENT </a> <br>
 
+    {% endblock  %}

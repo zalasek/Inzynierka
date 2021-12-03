@@ -1,14 +1,20 @@
-<form method='POST'> {% csrf_token %} 
-{{form_user.username.label}} <br>
-{{form_user.username}} <br>
-{{form_user.password1.label}} <br>
-{{form_user.password1}} <br>
-{{form_user.password2.label}} <br>
-{{form_user.password2}} <br>
-{{form_employee.position.label}} <br>
-{{form_employee.position}} <br>
-<input type='submit' value='Register' >
-</form>
+{% extends 'employees\base_login.html' %}
+{% block content %}
+        <div class='center_div'> 
+        <form method='POST'> {% csrf_token %} 
+            {{form_user.username.label}}  <br>
+            <p class='form_input'> {{form_user.username}} </p> <br>
+            {{form_user.password1.label}} <br>
+            <p class='form_input'>{{form_user.password1}} </p><br>
+            {{form_user.password2.label}} <br>
+            <p class='form_input'>{{form_user.password2}} </p><br>
+            {{form_employee.position.label}} <br>
+            <p class='form_input'>{{form_employee.position}} </p><br>
+            <input type='submit' value='Register' >
+        </form>
+    </div>
 
-{{form_user.errors}}
+    {{form_user.errors}}
+                
+{% endblock %}
 

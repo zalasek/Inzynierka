@@ -1,0 +1,72 @@
+body{
+  background-color: rgb(1, 26, 26);
+  color: azure;
+}
+
+.center_div{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+
+.button_login {
+  background-color: #616b61; /* Green */
+  border: 1px solid rgb(0, 0, 0);
+  width: 200px;
+  border-radius: 4px;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 3px;
+}
+
+.text_login{
+  font-size: 40px;
+}
+
+.form_input {
+  width: 100%;
+  padding: 3px 3px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+.button_menu {
+  background-color: #616b61; /* Green */
+  border: 1px solid rgb(0, 0, 0);
+  width: 200px;
+  border-radius: 4px;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 3px;
+}
+
+.menu_inline {
+  display: inline-block; 
+  }
+
+.menu {
+  text-align: center;
+  height: auto;
+  width: 80%;
+  position: fixed;
+  top: 3.5%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  }

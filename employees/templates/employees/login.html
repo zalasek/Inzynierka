@@ -1,10 +1,18 @@
-<h3> LOGIN </h3> Logged as '{{user}}'
+{% extends 'employees\base_login.html' %}
+{% block content %}
+        <h3> LOGIN </h3> Logged as '{{user}}'
+    <div class='center_div'>
+        <div class = 'text_login'> LOGIN </div>
+        <form method='POST'> 
+        {% csrf_token %}
+            <input class='form_input' type='text' name='username' placeholder='username'> <br>
+            <input type='password' name='password' placeholder='password'> <br>
+            <input class= 'button_login' type='submit' value='LOGIN'>
+        </form>
+        <form action="{% url 'register' %}">
+            <button class='button_login' type="submit" >REGISTER </button>
+        </form>
+        
+    </div>
 
-<form method='POST'> 
-{% csrf_token %}
-    <input type='text' name='username' placeholder='username'>
-    <input type='password' name='password' placeholder='password'>
-    <input type='submit' value='Login'>
-</form>
-
-<h3>  <a href='{% url 'register'%}'> Register </a>   </h3>
+{% endblock %}

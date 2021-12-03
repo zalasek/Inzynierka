@@ -14,14 +14,7 @@ def DocumentListView(request):
     context = {'documents': documents}
     return render(request, 'documents/document_list.html', context)
 
-# def DocumentPersonalListView(request):
-#     if not request.user.is_authenticated:
-#         return redirect('login')
-#     owner_id = request.user.id
-#     documents = Document.objects.filter(owner=owner_id)
 
-#     context = {'documents' : documents}
-#     return render(request, 'documents/document_list.html', context)
 
 
 def DocumentDetailView(request, pk):
@@ -44,16 +37,21 @@ def DocumentCreateView(request):
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == 'POST':  # gdy zatwierdzimy formularz
-        form = DocumentForm(request.POST, request.FILES)
-
-        if form.is_valid():
+        form = DocumentForm(request.POST)
+        file_form = FileForm(request.FILES)
+        if form.is_valid() and bool(request.FILES.get('document_file', False)) == True:
             document = form.save(commit=False)
             document.owner = request.user
+            document_file = request.FILES['document_file']
+            fs = FileSystemStorage()
+            document_file = fs.save(document_file.name, document_file)
+            document.document_file = document_file
             document.save()
             return redirect('accounts_home')
     else:
         form = DocumentForm()  # gdy wczytamy stronę z formularzem
-    context = {'form': form}
+        file_form = FileForm()
+    context = {'form': form, 'file_form': file_form}
     return render(request, 'documents/document_create.html', context)
 
 
@@ -108,7 +106,7 @@ def DocumentUpdateView(request, pk):
         Document.objects.filter(id=pk).update(approved_director=approved_director)
         Document.objects.filter(id=pk).update(approved_pm=approved_pm)
         Document.objects.filter(id=pk).update(status=status)
-
+        # dodać
         return redirect('document-list')
     else:
         return render(request, 'documents/document_update.html', context)

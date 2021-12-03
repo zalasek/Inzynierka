@@ -10,14 +10,14 @@ from documents.models import Document
 
 def LoginView(request):
     if request.user.is_authenticated:
-        if request.user.employee.position == 'director_products':
-            return redirect('director_home')
-        if request.user.employee.position == 'director_services':
+        if request.user.employee.position == 'director':
             return redirect('director_home')
         if request.user.employee.position == 'project_menager':
             return redirect('project_menager_home')
         if request.user.employee.position == 'accounts':
             return redirect('accounts_home')
+        else:
+            return redirect('login')
         
     elif request.method == 'POST':
         username = request.POST.get('username') 
@@ -97,7 +97,7 @@ def DirectorHomeView(request):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        if request.user.employee.position == 'director_products':
+        if request.user.employee.position == 'director':
             # products
             not_approved_director = Document.objects.filter(type = 'product').filter(approved_director = False).filter(approved_pm = True)
             not_approved_pm = Document.objects.filter(type = 'product').filter(approved_director = False).filter(approved_pm = False)
@@ -105,15 +105,6 @@ def DirectorHomeView(request):
             context = {'not_approved_director':not_approved_director,
                         'not_approved_pm':not_approved_pm}
 
-            return render(request, 'employees/director_home.html', context)
-
-        elif request.user.employee.position == 'director_services':
-            # services
-            not_approved_director = Document.objects.filter(type = 'service').filter(approved_director = False).filter(approved_pm = True)
-            not_approved_pm = Document.objects.filter(type = 'service').filter(approved_director = False).filter(approved_pm = False)
-
-            context = {'not_approved_director':not_approved_director,
-                        'not_approved_pm':not_approved_pm}
             return render(request, 'employees/director_home.html', context)
         else:
             return redirect('login')

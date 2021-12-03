@@ -1,11 +1,16 @@
+{% extends 'employees\base_accounts.html' %}
+{% block content %}
+
 <form method='POST' enctype="multipart/form-data"> {% csrf_token %}
 {{form.title.label}} <br>
 {{form.title}} <br>
 {{form.description.label}} <br>
 {{form.description}} <br>
-{{form.document_file.label}} <br>
-{{form.document_file}} <br>
 {{form.type.label}} <br>
 {{form.type}} <br>
+{{file_form.document_file.label}} <br>
+{{file_form.document_file}} <br>
 <input type='submit' value='Upload'>
 </form>
+
+{% endblock %}
