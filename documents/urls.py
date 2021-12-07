@@ -2,10 +2,12 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import DocumentListView, DocumentDetailView, DocumentCreateView, DocumentDeleteView, DocumentUpdateView, DocumentAssignView, DocumentCommentView, DocumentApprovalView
+from .views import DocumentListView, DocumentDetailView, DocumentCreateView, DocumentDeleteView, DocumentUpdateView, DocumentAssignView, DocumentCommentView, DocumentApprovalView,DocumentListFinishedView,DocumentListActiveView
 
-urlpatterns = [             
+urlpatterns = [           
     path('', DocumentListView, name='document-list'),
+    path('finished/', DocumentListFinishedView, name='document-list-finished'),
+    path('active/', DocumentListActiveView  , name='document-list-active'),
     path('<int:pk>', DocumentDetailView, name='document-detail'),
     path('create', DocumentCreateView, name='document-create'),
     path('delete/<int:pk>', DocumentDeleteView, name='document-delete'),

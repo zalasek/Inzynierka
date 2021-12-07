@@ -152,3 +152,17 @@ def DocumentApprovalView(request, pk):
 
     context = {'document':document}
     return render(request, 'documents/document_approval.html', context)
+
+
+
+def DocumentListFinishedView(request):
+    documents = Document.objects.filter(status='Paid')
+
+    context = {'documents':documents}
+    return render(request, 'documents/document_list_finished.html', context)
+
+
+def DocumentListActiveView(request):
+    documents = Document.objects.filter(status='Waiting for payment')
+    context = {'documents':documents}
+    return render(request, 'documents/document_list_active.html', context)

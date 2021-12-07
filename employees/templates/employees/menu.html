@@ -7,10 +7,10 @@
         <form class="menu_inline" method="get" action="{% url 'document-create' %}">
             <button type="submit" class="button_menu">Add new document</button>
         </form>
-        <form class="menu_inline" method="get" action="{% url 'document-list' %}">
+        <form class="menu_inline" method="get" action="{% url 'document-list-active' %}">
             <button type="submit" class="button_menu">Active documents</button>
         </form>
-        <form class="menu_inline" method="get" action="{% url 'document-list' %}">
+        <form class="menu_inline" method="get" action="{% url 'document-list-finished' %}">
             <button type="submit" class="button_menu">Finished documents</button>
         </form>
         <form class="menu_inline" method="get" action="{% url 'logout' %}">
