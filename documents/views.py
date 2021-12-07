@@ -12,7 +12,7 @@ def DocumentListView(request):
         return redirect('login')
     documents = Document.objects.all()
     context = {'documents': documents}
-    return render(request, 'documents/document_list.html', context)
+    return render(request, 'documents/accounts/document_list_accounts.html', context)
 
 
 
@@ -52,7 +52,7 @@ def DocumentCreateView(request):
         form = DocumentForm()  # gdy wczytamy stronę z formularzem
         file_form = FileForm()
     context = {'form': form, 'file_form': file_form}
-    return render(request, 'documents/document_create.html', context)
+    return render(request, 'documents/accounts/document_create_accounts.html', context)
 
 
 def DocumentDeleteView(request, pk):
@@ -63,7 +63,7 @@ def DocumentDeleteView(request, pk):
         document.delete()
         return redirect('document-list')
     context = {'document': document}
-    return render(request, 'documents/document_delete.html', context)
+    return render(request, 'documents/accounts/document_delete_accounts.html', context)
 
 
 def DocumentUpdateView(request, pk):
@@ -109,7 +109,7 @@ def DocumentUpdateView(request, pk):
         # dodać
         return redirect('document-list')
     else:
-        return render(request, 'documents/document_update.html', context)
+        return render(request, 'documents/accounts/document_update_accounts.html', context)
 
 
 def DocumentAssignView(request, pk):
@@ -159,7 +159,7 @@ def DocumentListFinishedView(request):
     documents = Document.objects.filter(status='Paid')
 
     context = {'documents':documents}
-    return render(request, 'documents/document_list_finished.html', context)
+    return render(request, 'documents/accounts/document_list_finished.html', context)
 
 
 def DocumentListActiveView(request):
@@ -172,8 +172,8 @@ def DocumentListActiveView(request):
 
         documents = Document.objects.filter(status='Waiting for payment')
         context = {'documents':documents}
-        return render(request, 'documents/document_list_active.html', context)
+        return render(request, 'documents/accounts/document_list_active.html', context)
     else:
         documents = Document.objects.filter(status='Waiting for payment')
         context = {'documents':documents}
-        return render(request, 'documents/document_list_active.html', context)
+        return render(request, 'documents/accounts/document_list_active.html', context)

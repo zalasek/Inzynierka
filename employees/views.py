@@ -77,7 +77,7 @@ def AccountsHomeView(request):
 
             context = {'documents_not_approved':documents_not_approved,
                         'documents_approved':documents_approved,}            
-            return render(request, 'employees/accounts_home.html', context)
+            return render(request, 'employees/accounts/accounts_home.html', context)
         else:
             return redirect('login')
 
