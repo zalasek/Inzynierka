@@ -163,6 +163,17 @@ def DocumentListFinishedView(request):
 
 
 def DocumentListActiveView(request):
-    documents = Document.objects.filter(status='Waiting for payment')
-    context = {'documents':documents}
-    return render(request, 'documents/document_list_active.html', context)
+
+    if request.method == 'POST':
+        print('hello')
+        payment = request.POST.get('payment')
+        id = request.POST.get('id')
+        Document.objects.filter(id=id).update(status='Paid')
+
+        documents = Document.objects.filter(status='Waiting for payment')
+        context = {'documents':documents}
+        return render(request, 'documents/document_list_active.html', context)
+    else:
+        documents = Document.objects.filter(status='Waiting for payment')
+        context = {'documents':documents}
+        return render(request, 'documents/document_list_active.html', context)
