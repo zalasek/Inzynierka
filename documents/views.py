@@ -7,15 +7,8 @@ from django.conf import settings
 from employees.models import Employee
 
 
-def DocumentListView(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    documents = Document.objects.all()
-    context = {'documents': documents}
-    return render(request, 'documents/accounts/document_list_accounts.html', context)
 
-
-
+################### UNIVERSAL ##################
 
 def DocumentDetailView(request, pk):
     if not request.user.is_authenticated:
@@ -33,7 +26,36 @@ def DocumentDetailView(request, pk):
     return render(request, 'documents/document_detail.html', context)
 
 
-def DocumentCreateView(request):
+def DocumentCommentView(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.document = Document.objects.get(id=pk)
+            comment.employee = Employee.objects.get(employee=request.user)
+            comment.save()
+            return redirect('login')
+    else:
+        form = CommentForm()
+        context = {'form': form}
+        return render(request, 'documents/document_comment.html', context)
+
+
+
+################ ACCOUNTS ########################
+
+def DocumentListAccountsView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    documents = Document.objects.all()
+    context = {'documents': documents}
+    return render(request, 'documents/accounts/document_list_accounts.html', context)
+
+
+def DocumentCreateAccountsView(request):
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == 'POST':  # gdy zatwierdzimy formularz
@@ -55,7 +77,7 @@ def DocumentCreateView(request):
     return render(request, 'documents/accounts/document_create_accounts.html', context)
 
 
-def DocumentDeleteView(request, pk):
+def DocumentDeleteAccountsView(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     document = Document.objects.get(id=pk)
@@ -66,7 +88,7 @@ def DocumentDeleteView(request, pk):
     return render(request, 'documents/accounts/document_delete_accounts.html', context)
 
 
-def DocumentUpdateView(request, pk):
+def DocumentUpdateAccountsView(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     document = Document.objects.get(id=pk)
@@ -78,9 +100,8 @@ def DocumentUpdateView(request, pk):
         'approved_pm':  document.approved_pm,
         'document_file': document.document_file,
         'type': document.type,
-        'status': document.status
-    }
- 
+        'status': document.status }
+
     form = DocumentForm(initial=initial_data)
     file_form = FileForm(request.FILES)
     context = {'form': form, 'file_form': file_form}
@@ -112,6 +133,33 @@ def DocumentUpdateView(request, pk):
         return render(request, 'documents/accounts/document_update_accounts.html', context)
 
 
+def DocumentListFinishedAccountsView(request):
+    documents = Document.objects.filter(status='Paid')
+    context = {'documents':documents}
+    return render(request, 'documents/accounts/document_list_finished_accounts.html', context)
+
+
+def DocumentListWaitingPaymentAccountsView(request):
+
+    # if request.method == 'POST':
+    #     print('hello')
+    #     payment = request.POST.get('payment')
+    #     id = request.POST.get('id')
+    #     Document.objects.filter(id=id).update(status='Paid')
+    #     documents = Document.objects.filter(status='Waiting for payment')
+    #     context = {'documents':documents}
+    #     return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
+    # else:
+    #     print('trolololo')
+    #     documents = Document.objects.filter(status='Waiting for payment')
+    #     context = {'documents':documents}
+    #     return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
+    context = {}
+    return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
+
+
+
+####################### DIRECTOR ########################
 def DocumentAssignView(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -126,54 +174,17 @@ def DocumentAssignView(request, pk):
     else:
         form_assignment = AssignmentForm()
         context = {'form_assignment': form_assignment}
-        return render(request, 'documents/document_assign.html', context)
-
-
-def DocumentCommentView(request, pk):
-    if not request.user.is_authenticated:
-        return redirect('login')
-
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.document = Document.objects.get(id=pk)
-            comment.employee = Employee.objects.get(employee=request.user)
-            comment.save()
-            return redirect('login')
-    else:
-        form = CommentForm()
-        context = {'form': form}
-        return render(request, 'documents/document_comment.html', context)
+        return render(request, 'documents/director/document_assign.html', context)
 
 
 def DocumentApprovalView(request, pk):
     document = Document.objects.get(id=pk)
-
     context = {'document':document}
-    return render(request, 'documents/document_approval.html', context)
+    return render(request, 'documents/director/document_approval.html', context)
 
 
 
-def DocumentListFinishedView(request):
-    documents = Document.objects.filter(status='Paid')
-
-    context = {'documents':documents}
-    return render(request, 'documents/accounts/document_list_finished.html', context)
 
 
-def DocumentListActiveView(request):
 
-    if request.method == 'POST':
-        print('hello')
-        payment = request.POST.get('payment')
-        id = request.POST.get('id')
-        Document.objects.filter(id=id).update(status='Paid')
 
-        documents = Document.objects.filter(status='Waiting for payment')
-        context = {'documents':documents}
-        return render(request, 'documents/accounts/document_list_active.html', context)
-    else:
-        documents = Document.objects.filter(status='Waiting for payment')
-        context = {'documents':documents}
-        return render(request, 'documents/accounts/document_list_active.html', context)

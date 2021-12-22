@@ -6,7 +6,9 @@ from .forms import EmployeeForm
 from django.contrib.auth.forms import UserCreationForm
 from documents.models import Document
 
-# Create your views here.
+
+
+############# LOGIN, LOGOUT, REGISTRATION #####################
 
 def LoginView(request):
     if request.user.is_authenticated:
@@ -65,7 +67,7 @@ def EmployeeCreateView(request):
     return render(request, 'employees/register.html', context)
 
 
-
+############# ACCOUNTS #####################
 
 def AccountsHomeView(request):
     if not request.user.is_authenticated:
@@ -83,6 +85,16 @@ def AccountsHomeView(request):
 
 
 
+
+
+
+
+
+
+
+############# PROJECT MENAGER #####################
+
+
 def ProjectMenagerHomeView(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -94,6 +106,8 @@ def ProjectMenagerHomeView(request):
             return redirect('login')
 
 
+
+############# DIRECTOR #####################
 
 def DirectorHomeView(request):
     if not request.user.is_authenticated:
@@ -107,7 +121,7 @@ def DirectorHomeView(request):
             context = {'not_approved_director':not_approved_director,
                         'not_approved_pm':not_approved_pm}
 
-            return render(request, 'employees/director_home.html', context)
+            return render(request, 'employees/director/director_home.html', context)
         else:
             return redirect('login')
 

@@ -1,0 +1,63 @@
+
+{% if request.user.employee.position == 'accounts' %}
+<div class="menu">
+    <form class="menu_inline" method="get" action="{% url 'document-list' %}">
+        <button type="submit" class="button_menu">All documents</button>
+    </form>
+    <form class="menu_inline" method="get" action="{% url 'document-create' %}">
+        <button type="submit" class="button_menu">Document create</button>
+    </form>
+    <form class="menu_inline" method="get" action="{% url 'document-list-waiting-payment' %}">
+        <button type="submit" class="button_menu">Waiting for payment</button>
+    </form>
+    <form class="menu_inline" method="get" action="{% url 'document-list-finished' %}">
+        <button type="submit" class="button_menu">Finished documents</button>
+    </form>
+    <form class="menu_inline" method="get" action="{% url 'accounts_home' %}">
+        <button type="submit" class="button_menu">Home</button>
+    </form>
+    <form class="menu_inline" method="get" action="{% url 'logout' %}">
+        <button type="submit" class="button_menu">Logout</button>
+    </form>
+</div>
+{% endif %}
+
+{% if request.user.employee.position == 'director' %}
+<div class="menu"> 
+        <form class="menu_inline" method="get" action="{% url 'document-list-active' %}">
+            <button type="submit" class="button_menu">Active documents</button>
+        </form>
+        <form class="menu_inline" method="get" action="{% url 'document-list-finished' %}">
+            <button type="submit" class="button_menu">Finished documents</button>
+        </form>
+        <form class="menu_inline" method="get" action="{% url 'accounts_home' %}">
+            <button type="submit" class="button_menu">Home</button>
+        </form>
+        <form class="menu_inline" method="get" action="{% url 'logout' %}">
+            <button type="submit" class="button_menu">Logout</button>
+        </form>
+</div>
+{% endif %}
+
+{% if request.user.employee.position == 'pm' %}
+<div class="menu"> 
+        <form class="menu_inline" method="get" action="{% url 'document-list' %}">
+            <button type="submit" class="button_menu">All documents</button>
+        </form>
+        <form class="menu_inline" method="get" action="{% url 'document-create' %}">
+            <button type="submit" class="button_menu">Add new document</button>
+        </form>
+        <form class="menu_inline" method="get" action="{% url 'document-list-active' %}">
+            <button type="submit" class="button_menu">Active documents</button>
+        </form>
+        <form class="menu_inline" method="get" action="{% url 'document-list-finished' %}">
+            <button type="submit" class="button_menu">Finished documents</button>
+        </form>
+        <form class="menu_inline" method="get" action="{% url 'logout' %}">
+            <button type="submit" class="button_menu">Logout</button>
+        </form>
+        <form class="menu_inline" method="get" action="{% url 'accounts_home' %}">
+            <button type="submit" class="button_menu">Home</button>
+        </form>
+</div>
+{% endif %}

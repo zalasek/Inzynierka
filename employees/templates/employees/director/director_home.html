@@ -1,0 +1,6 @@
+{% extends 'employees/director/base_director.html' %}
+{% block content %}
+        <p> Logged as '{{request.user}}' </p>   
+        <p> Employee's position '{{request.user.employee.position}}' </p>
+        <h3> TUTAJ WLECĄ POWIADOMIENIA ORAZ INFORMACJE O UŻYTKOWNIKU <h3>
+{% endblock content %}

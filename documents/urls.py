@@ -2,16 +2,16 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import DocumentListView, DocumentDetailView, DocumentCreateView, DocumentDeleteView, DocumentUpdateView, DocumentAssignView, DocumentCommentView, DocumentApprovalView,DocumentListFinishedView,DocumentListActiveView
+from .views import DocumentListAccountsView, DocumentDetailView, DocumentCreateAccountsView, DocumentDeleteAccountsView, DocumentUpdateAccountsView, DocumentAssignView, DocumentCommentView, DocumentApprovalView,DocumentListWaitingPaymentAccountsView,DocumentListFinishedAccountsView
 
 urlpatterns = [           
-    path('', DocumentListView, name='document-list'),
-    path('finished/', DocumentListFinishedView, name='document-list-finished'),
-    path('active/', DocumentListActiveView  , name='document-list-active'),
+    path('', DocumentListAccountsView, name='document-list'),
+    path('finished/', DocumentListFinishedAccountsView, name='document-list-finished'),
+    path('waiting-payment/', DocumentListWaitingPaymentAccountsView  , name='document-list-waiting-payment'),
     path('<int:pk>', DocumentDetailView, name='document-detail'),
-    path('create', DocumentCreateView, name='document-create'),
-    path('delete/<int:pk>', DocumentDeleteView, name='document-delete'),
-    path('update/<int:pk>', DocumentUpdateView, name='document-update'),
+    path('create', DocumentCreateAccountsView, name='document-create'),
+    path('delete/<int:pk>', DocumentDeleteAccountsView, name='document-delete'),
+    path('update/<int:pk>', DocumentUpdateAccountsView, name='document-update'),
     path('assign/<int:pk>', DocumentAssignView, name='document-assign'),
     path('comment/<int:pk>', DocumentCommentView, name='document-comment'),
     path('approval/<int:pk>', DocumentApprovalView, name='document-approval'),
