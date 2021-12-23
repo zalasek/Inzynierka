@@ -1,0 +1,8 @@
+
+{% extends 'employees\director\base_director.html' %}
+{% block content %}
+<form method='POST'> {% csrf_token %}
+    Are You sure that '{{document.document_file}}' is correct and ready for payment?
+    <input type='submit' value='Yes, I am sure. ' />
+</form>
+{% endblock  %}

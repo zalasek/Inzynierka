@@ -64,6 +64,7 @@ def DocumentCreateAccountsView(request):
         if form.is_valid() and bool(request.FILES.get('document_file', False)) == True:
             document = form.save(commit=False)
             document.owner = request.user
+            document.status = 'Assigned to director'
             document_file = request.FILES['document_file']
             fs = FileSystemStorage()
             document_file = fs.save(document_file.name, document_file)
@@ -141,21 +142,19 @@ def DocumentListFinishedAccountsView(request):
 
 def DocumentListWaitingPaymentAccountsView(request):
 
-    # if request.method == 'POST':
-    #     print('hello')
-    #     payment = request.POST.get('payment')
-    #     id = request.POST.get('id')
-    #     Document.objects.filter(id=id).update(status='Paid')
-    #     documents = Document.objects.filter(status='Waiting for payment')
-    #     context = {'documents':documents}
-    #     return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
-    # else:
-    #     print('trolololo')
-    #     documents = Document.objects.filter(status='Waiting for payment')
-    #     context = {'documents':documents}
-    #     return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
-    context = {}
-    return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
+    if request.method == 'POST':
+        payment = request.POST.get('payment')
+        id = request.POST.get('id')
+        Document.objects.filter(id=id).update(status='Paid')
+        documents = Document.objects.filter(status='Waiting for payment')
+        context = {'documents':documents}
+        return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
+    else:
+        documents = Document.objects.filter(status='Waiting for payment')
+        context = {'documents':documents}
+        return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
+
+
 
 
 
@@ -170,21 +169,43 @@ def DocumentAssignView(request, pk):
             assignment = form_assignment.save(commit=False)
             assignment.document = Document.objects.get(id=pk)
             assignment.save()
-            return redirect('accounts_home')
+            return redirect('document-not-assigned')
     else:
-        form_assignment = AssignmentForm()
+        form_assignment =  AssignmentForm()
         context = {'form_assignment': form_assignment}
         return render(request, 'documents/director/document_assign.html', context)
 
 
-def DocumentApprovalView(request, pk):
+
+def DocumentListNotAssignedDirectorView(request):
+    documents = Document.objects.filter(status='Assigned to director')
+    context = {'documents':documents}
+    return render(request, 'documents/director/document_list_not_assigned_director.html', context)
+
+
+def DocumentListWaitingReturnDirectorView(request):
+    documents = Document.objects.filter(status='Waiting')
+    context = {'documents':documents}
+    return render(request, 'documents/director/document_list_waiting_return_director.html', context)
+
+
+def DocumentListWaitingApprovalView(request):
+
+    documents = Document.objects.filter(status='Checked')
+    context = {'documents':documents}
+    return render(request, 'documents/director/document_list_waiting_approval.html', context)
+
+
+
+def DocumentConfirmationApprovalView(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
     document = Document.objects.get(id=pk)
-    context = {'document':document}
-    return render(request, 'documents/director/document_approval.html', context)
-
-
-
-
+    if request.method == 'POST':
+        Document.objects.filter(id=pk).update(status='Waiting for payment')
+        return redirect('document-list')
+    context = {'document': document}
+    return render(request, 'documents/director/document_approval_confirmation.html', context)
 
 
 

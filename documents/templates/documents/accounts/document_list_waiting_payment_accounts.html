@@ -3,7 +3,7 @@
 {% for document in documents %}
     DOCUMENT NAME: {{document.document_file}} <br>
     <a href='{% url 'document-detail' document.id %}'> VIEW </a>
-    <form method='POST' action={% url 'document-list-active' %} name='payment'>
+    <form method='POST'  name='payment'>
         {% csrf_token %}
     <input type="hidden"  value="Paid" name="payment">
     <input type="hidden"  value="{{document.id}}" name="id">

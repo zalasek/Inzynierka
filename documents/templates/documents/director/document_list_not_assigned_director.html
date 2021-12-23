@@ -1,0 +1,9 @@
+{% extends 'employees\director\base_director.html' %}
+{% block content %}
+{% for document in documents %}
+    DOCUMENT NAME: {{document.document_file}} <br>
+    <a href='{% url 'document-detail' document.id %}'> VIEW </a> <br>
+    <a href='{% url 'document-assign' document.id %}'> ASSIGN </a>
+    <hr>
+{% endfor %}
+{% endblock  %}

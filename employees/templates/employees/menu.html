@@ -24,14 +24,14 @@
 
 {% if request.user.employee.position == 'director' %}
 <div class="menu"> 
-        <form class="menu_inline" method="get" action="{% url 'document-list-active' %}">
-            <button type="submit" class="button_menu">Active documents</button>
+        <form class="menu_inline" method="get" action="{% url 'document-not-assigned' %}">
+            <button type="submit" class="button_menu">Waiting for assignment</button>
         </form>
-        <form class="menu_inline" method="get" action="{% url 'document-list-finished' %}">
-            <button type="submit" class="button_menu">Finished documents</button>
+        <form class="menu_inline" method="get" action="{% url 'document-waiting-return' %}">
+            <button type="submit" class="button_menu">Waiting for return</button>
         </form>
-        <form class="menu_inline" method="get" action="{% url 'accounts_home' %}">
-            <button type="submit" class="button_menu">Home</button>
+        <form class="menu_inline" method="get" action="{% url 'document-waiting-approval' %}">
+            <button type="submit" class="button_menu">Waiting for approval</button>
         </form>
         <form class="menu_inline" method="get" action="{% url 'logout' %}">
             <button type="submit" class="button_menu">Logout</button>

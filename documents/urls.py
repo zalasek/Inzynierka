@@ -2,19 +2,33 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import DocumentListAccountsView, DocumentDetailView, DocumentCreateAccountsView, DocumentDeleteAccountsView, DocumentUpdateAccountsView, DocumentAssignView, DocumentCommentView, DocumentApprovalView,DocumentListWaitingPaymentAccountsView,DocumentListFinishedAccountsView
+from .views import DocumentListAccountsView, DocumentDetailView, DocumentCreateAccountsView, DocumentDeleteAccountsView, DocumentUpdateAccountsView, DocumentAssignView, DocumentCommentView, DocumentListWaitingApprovalView,DocumentListWaitingPaymentAccountsView,DocumentListFinishedAccountsView, DocumentListWaitingReturnDirectorView, DocumentListNotAssignedDirectorView, DocumentConfirmationApprovalView
 
-urlpatterns = [           
-    path('', DocumentListAccountsView, name='document-list'),
+urlpatterns = [     
+    ## UNIVERSAL ##      
+    path('<int:pk>', DocumentDetailView, name='document-detail'),
+    path('comment/<int:pk>', DocumentCommentView, name='document-comment'),
+    path('update/<int:pk>', DocumentUpdateAccountsView, name='document-update'),
+
+    ## ACCOUNTS ##
     path('finished/', DocumentListFinishedAccountsView, name='document-list-finished'),
     path('waiting-payment/', DocumentListWaitingPaymentAccountsView  , name='document-list-waiting-payment'),
-    path('<int:pk>', DocumentDetailView, name='document-detail'),
+    path('', DocumentListAccountsView, name='document-list'),
     path('create', DocumentCreateAccountsView, name='document-create'),
     path('delete/<int:pk>', DocumentDeleteAccountsView, name='document-delete'),
-    path('update/<int:pk>', DocumentUpdateAccountsView, name='document-update'),
+
+    ## DIRECTOR  ##
     path('assign/<int:pk>', DocumentAssignView, name='document-assign'),
-    path('comment/<int:pk>', DocumentCommentView, name='document-comment'),
-    path('approval/<int:pk>', DocumentApprovalView, name='document-approval'),
+    path('waiting-approval/', DocumentListWaitingApprovalView, name='document-waiting-approval'),
+    path('waiting-return/', DocumentListWaitingReturnDirectorView, name='document-waiting-return'),
+    path('not-assigned/', DocumentListNotAssignedDirectorView, name='document-not-assigned'),
+    path('confirm-approval/<int:pk>', DocumentConfirmationApprovalView, name='document-approval-confirmation'),
+
+    ## PM ##
+
+
+
+
 ]
 
 if settings.DEBUG:
