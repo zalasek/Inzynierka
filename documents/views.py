@@ -10,22 +10,6 @@ from employees.models import Employee
 
 ################### UNIVERSAL ##################
 
-def DocumentDetailView(request, pk):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    document = Document.objects.get(id=pk)
-
-    if Comment.objects.filter(document=document).exists():
-        comments = Comment.objects.filter(document=document)
-        context = {'document': document,
-                   'comments': comments}
-        print('lol')
-    else:
-        context = {'document': document}
-    print(context)
-    return render(request, 'documents/document_detail.html', context)
-
-
 def DocumentCommentView(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -46,6 +30,19 @@ def DocumentCommentView(request, pk):
 
 
 ################ ACCOUNTS ########################
+
+def DocumentDetailAccountsView(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    document = Document.objects.get(id=pk)
+
+    if Comment.objects.filter(document=document).exists():
+        comments = Comment.objects.filter(document=document)
+        context = {'document': document,
+                   'comments': comments}
+    else:
+        context = {'document': document}
+    return render(request, 'documents/accounts/document_detail_accounts.html', context)
 
 def DocumentListAccountsView(request):
     if not request.user.is_authenticated:
@@ -106,8 +103,8 @@ def DocumentUpdateAccountsView(request, pk):
     form = DocumentForm(initial=initial_data)
     file_form = FileForm(request.FILES)
     context = {'form': form, 'file_form': file_form}
-    if request.method == 'POST':
 
+    if request.method == 'POST':
         title = request.POST['title']
         owner = request.POST['owner']
         description = request.POST['description']
@@ -135,62 +132,118 @@ def DocumentUpdateAccountsView(request, pk):
 
 
 def DocumentListFinishedAccountsView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     documents = Document.objects.filter(status='Paid')
     context = {'documents':documents}
     return render(request, 'documents/accounts/document_list_finished_accounts.html', context)
 
 
 def DocumentListWaitingPaymentAccountsView(request):
-
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
-        payment = request.POST.get('payment')
-        id = request.POST.get('id')
-        Document.objects.filter(id=id).update(status='Paid')
+        id_document = request.POST.get('id')
+        request.session['id_document'] = id_document 
         documents = Document.objects.filter(status='Waiting for payment')
         context = {'documents':documents}
-        return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
+        return redirect('document-payment')
     else:
         documents = Document.objects.filter(status='Waiting for payment')
         context = {'documents':documents}
         return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
 
-
+def DocumentPaymentView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        id_document  = request.session['id_document'] 
+        del request.session['id_document'] 
+        Document.objects.filter(id=id_document).update(status='Paid')
+        return redirect('document-list-finished')
+    context={}
+    return render(request, 'documents/accounts/document_payment.html', context)
 
 
 
 ####################### DIRECTOR ########################
-def DocumentAssignView(request, pk):
+def DocumentDetailDirectorView(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    document = Document.objects.get(id=pk)
+
+    if Comment.objects.filter(document=document).exists():
+        comments = Comment.objects.filter(document=document)
+        context = {'document': document,
+                   'comments': comments}
+    else:
+        context = {'document': document}
+    return render(request, 'documents/director/document_detail_director.html', context)
+
+def DocumentAssignView(request):
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == 'POST':
-        form_assignment = AssignmentForm(request.POST)
+        id_document = request.session['id_document']
+        id_employee = request.session['id_employee']
+        del request.session['id_document']
+        del request.session['id_employee']
+        document = Document.objects.get(id=id_document)
+        employee = Employee.objects.get(id=id_employee)
+        assignment = Assignment(document=document, employee=employee)
+        assignment.save()
+        Document.objects.filter(id=id_document).update(status='Waiting')
+        return redirect('document-waiting-approval')
+        
+    context = {}
+    return render(request, 'documents/director/document_assign.html', context)
 
-        if form_assignment.is_valid():
-            assignment = form_assignment.save(commit=False)
-            assignment.document = Document.objects.get(id=pk)
-            assignment.save()
-            return redirect('document-not-assigned')
-    else:
-        form_assignment =  AssignmentForm()
-        context = {'form_assignment': form_assignment}
-        return render(request, 'documents/director/document_assign.html', context)
+def DocumentApproveView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        id_document = request.session['id_document']
+        Document.objects.filter(id=id_document).update(status='Waiting for payment')
+        del request.session['id_document']
+        return redirect('document-waiting-approval')
+    context = {}
+    return render(request, 'documents/director/document_approve.html', context)
 
 
 
 def DocumentListNotAssignedDirectorView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     documents = Document.objects.filter(status='Assigned to director')
-    context = {'documents':documents}
+    form_assignment = AssignmentForm(request.POST)
+    
+    if request.method == 'POST':
+        form_assignment = form_assignment.save(commit=False)
+        employee = form_assignment.employee
+        id_document = request.POST.get('id')
+        request.session['id_document'] = id_document
+        request.session['id_employee'] = employee.id
+        return redirect('document-assign')
+
+    context = {'documents':documents, 'form_assignment': form_assignment}
     return render(request, 'documents/director/document_list_not_assigned_director.html', context)
 
 
 def DocumentListWaitingReturnDirectorView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     documents = Document.objects.filter(status='Waiting')
     context = {'documents':documents}
     return render(request, 'documents/director/document_list_waiting_return_director.html', context)
 
 
 def DocumentListWaitingApprovalView(request):
-
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        id_document = request.POST.get('id')
+        request.session['id_document'] = id_document
+        return redirect('document-approve')
     documents = Document.objects.filter(status='Checked')
     context = {'documents':documents}
     return render(request, 'documents/director/document_list_waiting_approval.html', context)
@@ -208,4 +261,49 @@ def DocumentConfirmationApprovalView(request, pk):
     return render(request, 'documents/director/document_approval_confirmation.html', context)
 
 
+############# PM ################
+def DocumentDetailPmView(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    document = Document.objects.get(id=pk)
 
+    if Comment.objects.filter(document=document).exists():
+        comments = Comment.objects.filter(document=document)
+        context = {'document': document,
+                   'comments': comments}
+    else:
+        context = {'document': document}
+    return render(request, 'documents/pm/document_detail_pm.html', context)
+
+def DocumentWaitingChecksView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    documents = Document.objects.filter(status='Waiting')
+    if request.method == 'POST':
+        id_document = request.POST.get('id')
+        request.session['id_document'] = id_document
+        return redirect('document-check')       
+    context = {'documents':documents}
+    return render(request, 'documents/pm/document_waiting_checks_pm.html', context)
+
+
+def DocumentCheckedView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    documents = Document.objects.filter(status='Waiting for payment')
+    context = {'documents':documents}
+    return render(request, 'documents/pm/document_checked_pm.html', context)
+
+def DocumentCheckView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        id_document  = request.session['id_document'] 
+        del request.session['id_document'] 
+        Document.objects.filter(id=id_document).update(status='Waiting for payment')
+        return redirect('document-checked')
+
+    context={}
+    return render(request, 'documents/pm/document_check.html', context)

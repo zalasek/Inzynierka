@@ -11,7 +11,6 @@ class Document(models.Model):
     status_choice = [ ('Assigned to director', 'Assigned to director'),
                       ('Waiting', 'Waiting for checks'),
                       ('Checked', 'Checked'),
-                      ('Approved', 'Approved'),
                       ('Waiting for payment', 'Waiting for payment'),
                       ('Paid', 'Paid')
     ]

@@ -1,0 +1,7 @@
+{% extends 'employees\accounts\base_accounts.html' %}
+{% block content %}
+        <form method='POST'> {% csrf_token %} 
+
+        <input type='submit' value='Pay' >
+        </form>
+{% endblock %}

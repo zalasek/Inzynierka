@@ -1,15 +1,13 @@
 
 
-{% extends 'employees\accounts\base_accounts.html' %}
+{% extends 'employees\director\base_director.html' %}
 {% block content %}
     
-    ID: {{document.id}} <br>
+
     TITLE: {{document.title}} <br>
     OWNER: {{document.owner}} <br>
     DESCRIPTION: {{document.description}} <br>
     UPLOADED: {{document.created}} <br>
-    APPROVED DIRECTOR: {{document.approved_director}} <br>
-    APPROVED PM: {{document.approved_pm}} <br>
     DOCUMENT FILE: {{document.document_file}} <br>
     TYPE: {{document.type}} <br>
     STATUS: {{document.status}} <br>
@@ -20,7 +18,7 @@
     <hr>
     {% endfor %}
     
-    <a href='media/{{document.document_file}}'> {{document.document_file}} </a> <br>
+    <a href='http://127.0.0.1:8000/documents/media/{{document.document_file}}'> {{document.document_file}} </a> <br>
     <a href='{% url 'document-update' document.id%}'> UPDATE DOCUMENT </a> <br>
     <a href='{% url 'document-delete' document.id%}'> DELETE DOCUMENT </a> <br>
     <a href='{% url 'document-comment' document.id%}'> ADD COMMENT </a> <br>

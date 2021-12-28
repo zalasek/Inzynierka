@@ -2,9 +2,13 @@
 {% block content %}
 {% for document in documents %}
     DOCUMENT NAME: {{document.document_file}} <br>
-    <a href='{% url 'document-detail' document.id %}'> VIEW </a> <br>
-    <a href='{% url 'document-approval-confirmation' document.id%}'> APPROVE DOCUMENT </a> <br>
+    <a href='{% url 'document-detail-director' document.id %}'> VIEW </a> <br>
+    <form method='POST'> {% csrf_token %} 
+        <input type="hidden"  value="{{document.id}}" name="id">
+        <input type='submit' value='Approve' >
+        </form> </a>
     <hr>
+    
 
 {% endfor %}
 {% endblock  %}

@@ -39,25 +39,16 @@
 </div>
 {% endif %}
 
-{% if request.user.employee.position == 'pm' %}
+{% if request.user.employee.position == 'project_menager' %}
 <div class="menu"> 
-        <form class="menu_inline" method="get" action="{% url 'document-list' %}">
-            <button type="submit" class="button_menu">All documents</button>
+        <form class="menu_inline" method="get" action="{% url 'document-waiting-check' %}">
+            <button type="submit" class="button_menu">Waiting for checks</button>
         </form>
-        <form class="menu_inline" method="get" action="{% url 'document-create' %}">
-            <button type="submit" class="button_menu">Add new document</button>
-        </form>
-        <form class="menu_inline" method="get" action="{% url 'document-list-active' %}">
-            <button type="submit" class="button_menu">Active documents</button>
-        </form>
-        <form class="menu_inline" method="get" action="{% url 'document-list-finished' %}">
-            <button type="submit" class="button_menu">Finished documents</button>
+        <form class="menu_inline" method="get" action="{% url 'document-checked' %}">
+            <button type="submit" class="button_menu">Already checked</button>
         </form>
         <form class="menu_inline" method="get" action="{% url 'logout' %}">
             <button type="submit" class="button_menu">Logout</button>
-        </form>
-        <form class="menu_inline" method="get" action="{% url 'accounts_home' %}">
-            <button type="submit" class="button_menu">Home</button>
         </form>
 </div>
 {% endif %}

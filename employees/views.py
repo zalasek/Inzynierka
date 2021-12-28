@@ -15,7 +15,7 @@ def LoginView(request):
         if request.user.employee.position == 'director':
             return redirect('document-not-assigned')
         if request.user.employee.position == 'project_menager':
-            return redirect('project_menager_home')
+            return redirect('document-waiting-check')
         if request.user.employee.position == 'accounts':
             return redirect('accounts_home')
         else:

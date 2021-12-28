@@ -1,6 +1,9 @@
+{% extends 'employees\director\base_director.html' %}
+{% block content %}
 <form method='POST' enctype="multipart/form-data"> {% csrf_token %}
 {{form.comment.label}} <br>
 {{form.comment}} <br>
 
 <input type='submit' value='Upload'>
 </form>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends 'employees\pm\base_pm.html' %}
+{% block content %}
+        <form method='POST'> {% csrf_token %} 
+        <input type='submit' value='Check' >
+        </form>
+{% endblock %}
