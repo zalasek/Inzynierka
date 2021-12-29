@@ -2,17 +2,18 @@
 {% block content %}
     
     <div class='center_div'>
-        <div class = 'text_login'> LOGIN </div>
+        <div class='center_content'>
+        <div class = 'text_login'> &#160 LOGIN </div>
         <form method='POST'> 
         {% csrf_token %}
             <input class='form_input' type='text' name='username' placeholder='username'> <br>
-            <input type='password' name='password' placeholder='password'> <br>
+            <input class='form_input' type='password' name='password' placeholder='password'> <br>
             <input class= 'button_login' type='submit' value='LOGIN'>
         </form>
         <form action="{% url 'register' %}">
             <button class='button_login' type="submit" >REGISTER </button>
         </form>
-        
+        </div>
     </div>
 
 {% endblock %}

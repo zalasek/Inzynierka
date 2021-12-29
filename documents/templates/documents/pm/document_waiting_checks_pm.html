@@ -7,8 +7,8 @@
         <input type="hidden"  value="{{document.id}}" name="id">
         <input type='submit' value='Checked' >
     </form> </a>
-
-    
+{% empty %}
+You have no documents that are waiting for checks. 
 {% endfor %}
     
 {% endblock  %}

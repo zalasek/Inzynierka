@@ -12,8 +12,10 @@
     <body>
         {% include 'employees/menu.html' %}
         <div class = 'center_div'>
-            {% block content%}
-            {% endblock content%}
+            <div class = 'center_content'>
+                {% block content%}
+                {% endblock content%}
+            </div>
         </div>
     </body>
 </html>

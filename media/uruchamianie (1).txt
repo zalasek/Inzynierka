@@ -1,0 +1,49 @@
+Link do strony Allegro Common Lisp:
+
+http://www.franz.com/downloads/clp/survey
+
+
+########################################
+Graph Plan
+########################################
+(in-package :cl-user)
+:cd sgp
+:cl loader.lisp
+(load-gp)
+(load-domains "gripper.pddl")
+(stat-gp graph-size)
+(format t "~A~%" (plan 'strips-gripper2))
+
+########################################
+Statystyki
+########################################
+(stat-gp time-expansion)
+(stat-gp time-bc)
+(stat-gp time-mutex)
+(stat-gp time-graphsize)
+(stat-gp mutex-count)
+
+########################################
+Sensory Graph Plan
+########################################
+(in-package :sgp)
+(format t "~A~%" (plan 'strips-gripper0))
+
+
+########################################
+Sensory Graph Plan
+########################################
+(trace-gp top-level)
+(trace-gp actions)
+(trace-gp bc)
+
+########################################
+Update
+########################################
+(in-package :cl-user)
+(load-domains "gripper.pddl")
+
+
+(load-domains "puzzle.pddl")
+(stat-gp graph-size)
+(format t "~A~%" (plan 'puzzle-1))

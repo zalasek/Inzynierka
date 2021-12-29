@@ -151,6 +151,7 @@ def DocumentListWaitingPaymentAccountsView(request):
     else:
         documents = Document.objects.filter(status='Waiting for payment')
         context = {'documents':documents}
+        print(documents)
         return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
 
 def DocumentPaymentView(request):

@@ -1,20 +1,17 @@
 
 {% if request.user.employee.position == 'accounts' %}
-<div class="menu">
+<div class="menu_accounts">
+    <form class="menu_inline" method="get" action="{% url 'document-create' %}">
+        <button type="submit" class="button_menu">Add new document</button>
+    </form>
     <form class="menu_inline" method="get" action="{% url 'document-list' %}">
         <button type="submit" class="button_menu">All documents</button>
-    </form>
-    <form class="menu_inline" method="get" action="{% url 'document-create' %}">
-        <button type="submit" class="button_menu">Document create</button>
     </form>
     <form class="menu_inline" method="get" action="{% url 'document-list-waiting-payment' %}">
         <button type="submit" class="button_menu">Waiting for payment</button>
     </form>
     <form class="menu_inline" method="get" action="{% url 'document-list-finished' %}">
         <button type="submit" class="button_menu">Finished documents</button>
-    </form>
-    <form class="menu_inline" method="get" action="{% url 'accounts_home' %}">
-        <button type="submit" class="button_menu">Home</button>
     </form>
     <form class="menu_inline" method="get" action="{% url 'logout' %}">
         <button type="submit" class="button_menu">Logout</button>
@@ -23,12 +20,12 @@
 {% endif %}
 
 {% if request.user.employee.position == 'director' %}
-<div class="menu"> 
+<div class="menu_director"> 
         <form class="menu_inline" method="get" action="{% url 'document-not-assigned' %}">
             <button type="submit" class="button_menu">Waiting for assignment</button>
         </form>
         <form class="menu_inline" method="get" action="{% url 'document-waiting-return' %}">
-            <button type="submit" class="button_menu">Waiting for return</button>
+            <button type="submit" class="button_menu">Assigned for checks</button>
         </form>
         <form class="menu_inline" method="get" action="{% url 'document-waiting-approval' %}">
             <button type="submit" class="button_menu">Waiting for approval</button>
@@ -40,7 +37,7 @@
 {% endif %}
 
 {% if request.user.employee.position == 'project_menager' %}
-<div class="menu"> 
+<div class="menu_pm"> 
         <form class="menu_inline" method="get" action="{% url 'document-waiting-check' %}">
             <button type="submit" class="button_menu">Waiting for checks</button>
         </form>

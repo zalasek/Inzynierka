@@ -1,4 +1,9 @@
+{% extends 'employees\accounts\base_accounts.html' %}
+{% block content %}
+
 <form method='POST'> {% csrf_token %}
-Do You want to delete '{{document.document_file}}' ?
+Do You want to delete '{{document.document_file}}' ? <br>
 <input type='submit' value='Delete' />
 </form>
+
+{% endblock %}

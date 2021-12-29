@@ -11,16 +11,17 @@
     DOCUMENT FILE: {{document.document_file}} <br>
     TYPE: {{document.type}} <br>
     STATUS: {{document.status}} <br>
+    
+
+    
+    <a href='http://127.0.0.1:8000/documents/media/{{document.document_file}}'> {{document.document_file}} </a> <br>
+    <a href='{% url 'document-comment' document.id%}'> ADD COMMENT </a> <br>
+
     <br> <h1> COMMENTS: </h1>
     {% for comment in comments %}
     Author: {{comment.employee}} <br>
     Comment: {{comment.comment}} <br>
     <hr>
     {% endfor %}
-    
-    <a href='http://127.0.0.1:8000/documents/media/{{document.document_file}}'> {{document.document_file}} </a> <br>
-    <a href='{% url 'document-update' document.id%}'> UPDATE DOCUMENT </a> <br>
-    <a href='{% url 'document-delete' document.id%}'> DELETE DOCUMENT </a> <br>
-    <a href='{% url 'document-comment' document.id%}'> ADD COMMENT </a> <br>
 
     {% endblock  %}
