@@ -5,7 +5,7 @@
     <a href='{% url 'document-detail-director' document.id %}'> VIEW </a>
     <hr>
     {% empty %}
-You have no documents that are waiting for project menager to check.
+    <p class = "empty_context" > You have no documents that are waiting for project menager to check. </p>
 {% endfor %}
 
 {% endblock  %}

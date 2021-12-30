@@ -5,7 +5,7 @@
     <a href='{% url 'document-detail-accounts' document.id %}'> VIEW </a>
     <hr>
     {% empty %}
-    You have no paid documents.
+    <p class = "empty_context" >You have no paid documents. </p>
 {% endfor %}
 
 {% endblock  %}

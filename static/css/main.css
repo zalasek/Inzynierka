@@ -126,3 +126,42 @@ body{
   transform: translate(-50%, -50%);
   z-index: 1;
 }
+
+.error_msg {
+  color: rgb(170, 0, 0);
+  font-size: medium;
+  font-weight: 500;
+  position: relative;
+}
+
+.create_document{
+  display: inline-block;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 23px;
+  padding: 8px 8px;
+}
+
+.page_title{
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.upload_button{
+  border: 2px solid rgb(0, 0, 0);
+  width: 80px;
+  border-radius: 4px;
+  padding: 4px 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 3px;
+}
+
+.empty_context{
+  font-size: 30px;
+  font-weight: 300;
+}

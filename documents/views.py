@@ -60,14 +60,17 @@ def DocumentCreateAccountsView(request):
         file_form = FileForm(request.FILES)
         if form.is_valid() and bool(request.FILES.get('document_file', False)) == True:
             document = form.save(commit=False)
-            document.owner = request.user
-            document.status = 'Assigned to director'
-            document_file = request.FILES['document_file']
-            fs = FileSystemStorage()
-            document_file = fs.save(document_file.name, document_file)
-            document.document_file = document_file
-            document.save()
-            return redirect('accounts_home')
+            if document.type == '':
+                return redirect('document-create')
+            else:
+                document.owner = request.user
+                document.status = 'Assigned to director'
+                document_file = request.FILES['document_file']
+                fs = FileSystemStorage()
+                document_file = fs.save(document_file.name, document_file)
+                document.document_file = document_file
+                document.save()
+                return redirect('document-list')
     else:
         form = DocumentForm()  # gdy wczytamy stronę z formularzem
         file_form = FileForm()
@@ -106,10 +109,7 @@ def DocumentUpdateAccountsView(request, pk):
 
     if request.method == 'POST':
         title = request.POST['title']
-        owner = request.POST['owner']
         description = request.POST['description']
-        approved_director = request.POST['approved_director']
-        approved_pm = request.POST['approved_pm']
         type = request.POST['type']
         status = request.POST['status']
 
@@ -120,10 +120,7 @@ def DocumentUpdateAccountsView(request, pk):
             Document.objects.filter(id=pk).update(document_file=document_file)
 
         Document.objects.filter(id=pk).update(title=title)
-        Document.objects.filter(id=pk).update(owner=owner)
         Document.objects.filter(id=pk).update(description=description)
-        Document.objects.filter(id=pk).update(approved_director=approved_director)
-        Document.objects.filter(id=pk).update(approved_pm=approved_pm)
         Document.objects.filter(id=pk).update(status=status)
         # dodać
         return redirect('document-list')
@@ -151,7 +148,6 @@ def DocumentListWaitingPaymentAccountsView(request):
     else:
         documents = Document.objects.filter(status='Waiting for payment')
         context = {'documents':documents}
-        print(documents)
         return render(request, 'documents/accounts/document_list_waiting_payment_accounts.html', context)
 
 def DocumentPaymentView(request):
@@ -221,10 +217,15 @@ def DocumentListNotAssignedDirectorView(request):
     if request.method == 'POST':
         form_assignment = form_assignment.save(commit=False)
         employee = form_assignment.employee
-        id_document = request.POST.get('id')
-        request.session['id_document'] = id_document
-        request.session['id_employee'] = employee.id
-        return redirect('document-assign')
+        if employee is not None:
+            id_document = request.POST.get('id')
+            request.session['id_document'] = id_document
+            request.session['id_employee'] = employee.id
+            return redirect('document-assign')
+        else:
+            form_assignment = AssignmentForm()
+            context = {'documents':documents, 'form_assignment': form_assignment}
+            return render(request, 'documents/director/document_list_not_assigned_director.html', context) 
 
     context = {'documents':documents, 'form_assignment': form_assignment}
     return render(request, 'documents/director/document_list_not_assigned_director.html', context)

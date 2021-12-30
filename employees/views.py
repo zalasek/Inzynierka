@@ -17,7 +17,7 @@ def LoginView(request):
         if request.user.employee.position == 'project_menager':
             return redirect('document-waiting-check')
         if request.user.employee.position == 'accounts':
-            return redirect('accounts_home')
+            return redirect('document-list-waiting-payment')
         else:
             return redirect('login')
         
@@ -35,7 +35,9 @@ def LoginView(request):
             if user.employee.position == 'accounts':
                 return redirect('accounts_home')
         else:
-            return redirect('login')
+            error = 'Wrong username or password!'
+            context = {'error':error}
+            return render(request, 'employees/login.html', context)
     else:
         context = {}
         return render(request, 'employees/login.html', context)
@@ -48,11 +50,9 @@ def EmployeeCreateView(request):
     if request.method == 'POST':
         form_user = UserCreationForm(request.POST)
         form_employee = EmployeeForm(request.POST)
-        if form_user.is_valid() and form_employee.is_valid():
-            
+        if form_user.is_valid() and form_employee.is_valid(): 
             user = form_user.save()
-
-            employee = form_employee.save(commit=False) # nie zapisujemy odrazu
+            employee = form_employee.save(commit=False)
             employee.employee = user
             employee.save()
             username = form_user.cleaned_data.get('username')
