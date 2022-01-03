@@ -2,7 +2,7 @@
 
 {% extends 'employees\accounts\base_accounts.html' %}
 {% block content %}
-    
+<div class = 'center_content'>   
     TITLE: {{document.title}} <br>
     OWNER: {{document.owner}} <br>
     DESCRIPTION: {{document.description}} <br>
@@ -23,4 +23,6 @@
     Comment: {{comment.comment}} <br>
     <hr>
     {% endfor %}
+
+</div>
     {% endblock  %}

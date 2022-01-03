@@ -1,8 +1,16 @@
 {% extends 'employees\director\base_director.html' %}
 {% block content %}
-    <form method='POST'> {% csrf_token %} 
-        <input type='submit' value='Approve' >
-    </form> </a>
-    <hr>
+<div>
+    <div class="action_text"> Confirm that You want to delete this document.</div>
+    <div class = 'center_content'>
+    <form method='POST'> {% csrf_token %}
+    <input class="action_button" type='submit' value='Approve' />
+    </form>
+    <form  method="POST"> {% csrf_token %}
 
+        <input type='hidden' name='not_approve'>
+        <input class="action_button" type='submit' value="Don't approve">
+    
+</form>
+</div>
 {% endblock  %}

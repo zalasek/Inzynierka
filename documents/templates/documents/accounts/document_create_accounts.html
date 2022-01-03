@@ -1,6 +1,6 @@
 {% extends 'employees\accounts\base_accounts.html' %}
 {% block content %}
-
+<div class = 'center_content'>
 <p class="page_title"> Add new document there.  </p>
 <form method='POST' class = "create_document" enctype="multipart/form-data"> {% csrf_token %}
 {{form.title.label}}<br>
@@ -13,5 +13,5 @@ Type of bill <br>
 {{file_form.document_file}} <br>
 <input class = 'upload_button' type='submit' value='Upload'>
 </form>
-
+</div>
 {% endblock %}

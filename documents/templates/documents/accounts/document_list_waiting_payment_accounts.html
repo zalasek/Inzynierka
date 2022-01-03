@@ -1,19 +1,31 @@
 {% extends 'employees\accounts\base_accounts.html' %}
 {% block content %}
-{% for document in documents %}
-    DOCUMENT NAME: {{document.document_file}} <br>
-    <a href='{% url 'document-detail-accounts' document.id %}'> VIEW </a>
-    <form method='POST'  name='payment'>
-        {% csrf_token %}
-    <input type="hidden"  value="Paid" name="payment">
-    <input type="hidden"  value="{{document.id}}" name="id">
-    <input type="submit" value="Submit">
-    </form>
-    <hr>
-    {% empty %}
-    <p class = "empty_context" > You have no documents that are waiting for payment. </p>
-{% endfor %}
-
-
+<div class = "document_list_center" >
+<table class='document_list'>
+    <tr>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Details</th>
+      <th>Payment</th>
+    </tr>
+    {% for document in documents %}
+    <tr>
+      <td>{{document.title}}</td>
+      <td>{{document.status}}</td>
+      <td><a href='{% url 'document-detail-accounts' document.id %}'> VIEW </a></td>
+      <td>     <form method='POST'  name='payment'>
+                {% csrf_token %}
+                <input type="hidden"  value="Paid" name="payment">
+                <input type="hidden"  value="{{document.id}}" name="id">
+                <input class = "upload_button" type="submit" value="Paid">
+                </form> </td>
+    </tr>
+  {% empty %}
+  <p class = "empty_context" >You have no documents. </p>
+  {% endfor %}
+</table>
+</div>
 {% endblock  %}
+
+
 

@@ -1,9 +1,16 @@
 {% extends 'employees\director\base_director.html' %}
 {% block content %}
-<form method='POST' enctype="multipart/form-data"> {% csrf_token %}
-{{form.comment.label}} <br>
-{{form.comment}} <br>
-
-<input type='submit' value='Upload'>
-</form>
+<div class = 'center_content'>
+    <p class="page_title"> Add comment for '{{document.title}}'  </p>
+    <form method='POST'  > 
+    {% csrf_token %}
+    {{form.comment}} 
+    <br>
+    <input class='comment_button' type='submit' value='Add comment'>
+    </form>
+    <form method="POST"  > 
+        {% csrf_token %}
+        <input class='comment_button' name='not_comment' type='submit' value="Dont't add">
+    </form>
+    </div>
 {% endblock %}

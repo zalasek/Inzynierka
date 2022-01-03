@@ -1,9 +1,16 @@
 {% extends 'employees\accounts\base_accounts.html' %}
 {% block content %}
+<div>
+    <div class="action_text"> Confirm that You want to delete this document.</div>
+    <div class = 'center_content'>
+    <form method='POST'> {% csrf_token %}
+    <input class="action_button" type='submit' value='Delete' />
+    </form>
+    <form  method="POST"> {% csrf_token %}
 
-<form method='POST'> {% csrf_token %}
-Do You want to delete '{{document.document_file}}' ? <br>
-<input type='submit' value='Delete' />
+        <input type='hidden' name='not_delete'>
+        <input class="action_button" type='submit' value="Don't delete">
+    
 </form>
-
+</div>
 {% endblock %}

@@ -1,7 +1,15 @@
 {% extends 'employees\accounts\base_accounts.html' %}
 {% block content %}
+<div class="action_text"> Confirm that this bill is already paid.</div>
+<div class = 'center_content'>
         <form method='POST'> {% csrf_token %} 
 
-        <input type='submit' value='Pay' >
+        
+        <input class = "action_button" type='submit' value='Paid' >
         </form>
+        <form method="POST"> {% csrf_token %}
+                <input type='hidden' name='not_paid'>
+                <button class= "action_button" type='submit'>It is not</button>
+        </form>
+</div>
 {% endblock %}

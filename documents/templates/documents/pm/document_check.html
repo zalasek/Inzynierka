@@ -1,6 +1,16 @@
 {% extends 'employees\pm\base_pm.html' %}
 {% block content %}
-        <form method='POST'> {% csrf_token %} 
-        <input type='submit' value='Check' >
+<div>
+        <div class="action_text"> Confirm that this document is checked.</div>
+        <div class = 'center_content'>
+        <form method='POST'> {% csrf_token %}
+        <input class="action_button" type='submit' value='Checked' />
         </form>
+        <form  method="POST"> {% csrf_token %}
+    
+            <input type='hidden' name='not_check'>
+            <input class="action_button" type='submit' value="Not checked">
+        
+    </form>
+    </div>
 {% endblock %}

@@ -1,9 +1,16 @@
 {% extends 'employees\director\base_director.html' %}
 {% block content %}
-        <form method='POST'> {% csrf_token %} 
+<div>
+    <div class="action_text"> Confirm that You want to assign this document.</div>
+    <div class = 'center_content'>
+    <form method='POST'> {% csrf_token %}
+    <input class="action_button" type='submit' value='Assign' />
+    </form>
+    <form  method="POST"> {% csrf_token %}
 
-        <input type='submit' value='Assign' >
-        </form>
-
-{{form_user.errors}}
-{% endblock %}
+        <input type='hidden' name='not_assign'>
+        <input class="action_button" type='submit' value="Don't assign">
+    
+</form>
+</div>
+{% endblock  %}

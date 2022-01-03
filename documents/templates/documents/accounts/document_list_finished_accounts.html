@@ -1,11 +1,21 @@
 {% extends 'employees\accounts\base_accounts.html' %}
 {% block content %}
-{% for document in documents %}
-    DOCUMENT NAME: {{document.document_file}} <br>
-    <a href='{% url 'document-detail-accounts' document.id %}'> VIEW </a>
-    <hr>
-    {% empty %}
-    <p class = "empty_context" >You have no paid documents. </p>
-{% endfor %}
-
+<div class = "document_list_center" >
+<table class='document_list'>
+    <tr>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Details</th>
+    </tr>
+    {% for document in documents %}
+    <tr>
+      <td>{{document.title}}</td>
+      <td>{{document.status}}</td>
+      <td><a href='{% url 'document-detail-accounts' document.id %}'> VIEW </a></td>
+    </tr>
+  {% empty %}
+  <p class = "empty_context" >You have no documents. </p>
+  {% endfor %}
+</table>
+</div>
 {% endblock  %}

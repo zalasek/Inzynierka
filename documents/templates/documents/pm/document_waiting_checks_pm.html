@@ -1,15 +1,27 @@
-{% extends 'employees\pm\base_pm.html' %}
+{% extends 'employees\director\base_director.html' %}
 {% block content %}
-{% for document in documents %}
-    DOCUMENT NAME: {{document.document_file}} <br>
-    <a href='{% url 'document-detail-pm' document.id %}'> VIEW </a> <br>
-    <form method='POST'> {% csrf_token %} 
+<div class = "document_list_center" >
+<table class='document_list'>
+    <tr>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Details</th>
+      <th>Checked</th>
+    </tr>
+    {% for document in documents %}
+    <tr>
+      <td>{{document.title}}</td>
+      <td>{{document.status}}</td>
+      <td><a href='{% url 'document-detail-pm' document.id %}'> VIEW </a></td>
+      <td><form method='POST'> {% csrf_token %} 
         <input type="hidden"  value="{{document.id}}" name="id">
-        <input type='submit' value='Checked' >
-    </form> </a>
-{% empty %}
-<p class = "empty_context" > You have no documents that are waiting for checks. </p>
-{% endfor %}
-    
+        <input class = "action_button" type='submit' value='Checked' >
+        </form></td> 
+    </tr>
+  {% empty %}
+  <p class = "empty_context" >You have no documents. </p>
+  {% endfor %}
+</table>
+</div>
 {% endblock  %}
 

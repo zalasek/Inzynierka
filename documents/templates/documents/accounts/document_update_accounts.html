@@ -1,6 +1,6 @@
 {% extends 'employees\accounts\base_accounts.html' %}
 {% block content %}
-
+<div class = 'center_content'>
     <form method="POST" class = "create_document" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.title.label}}<br>
@@ -17,5 +17,6 @@
         
         <input type="submit" class = 'upload_button' value="Update">
     </form>
+</div>
 {% endblock %}
 
