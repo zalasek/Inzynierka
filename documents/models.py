@@ -8,9 +8,9 @@ from employees.models import Employee
 class Document(models.Model):
     type_choice = [ ('product', 'Product'),
                     ('service', 'Service'),]  # podział faktur na produkt / usługę 
-    status_choice = [ ('Assigned to director', 'Assigned to director'),
-                      ('Waiting', 'Waiting for checks'),
-                      ('Checked', 'Checked'),
+    status_choice = [ ('Waiting for assignment to PM', 'Waiting for assignment to PM'),
+                      ('Waiting for checks', 'Waiting for checks'),
+                      ('Waiting for director to approve', 'Waiting for director to approve'),
                       ('Waiting for payment', 'Waiting for payment'),
                       ('Paid', 'Paid')
     ]

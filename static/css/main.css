@@ -7,13 +7,14 @@ body{
   margin-top: 2%;
   width: 68%;
   height: 83%;
-  background-color: #dddddd; /* Green */
+  background-color: #dddddd; 
   border-radius: 2%;
   position: absolute;
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  flex-grow: 1;
 }
 
 .login_register_field{
@@ -69,10 +70,10 @@ body{
 .button_menu {
   background-color: #d7ddd7; /* Green */
   border: 1px solid rgb(0, 0, 0);
-  width: 110%;
+  width: 100%;
   border-radius: 5%;
   color: rgb(34, 33, 33);
-  padding: 5px 10px;
+  padding: 6px 9px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -89,9 +90,9 @@ body{
   background-color: #3a3a3a;
   border-radius: 2.5%;
   text-align: center;
-  height: auto;
+  height: 75px;
   width: 68%;
-  position: fixed;
+  position: absolute;
   top: 5%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
@@ -103,9 +104,9 @@ body{
   background-color: #3a3a3a;
   border-radius: 2.5%;
   text-align: center;
-  height: auto;
-  width: 59%;
-  position: fixed;
+  height: 75px;
+  width: 68%;
+  position: absolute;
   top: 5%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
@@ -115,11 +116,11 @@ body{
 
 .menu_pm {  
   background-color: #3a3a3a;
-  border-radius: 4% ;
+  border-radius: 2.5%;
   text-align: center;
-  height: auto;
-  width: 40%;
-  position: fixed;
+  height: 75px;
+  width: 68%;
+  position: absolute;
   top: 5%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
@@ -147,6 +148,7 @@ body{
   text-align: center;
   font-size: 30px;
   font-weight: 600;
+  display: inline;
 }
 
 .upload_button{
@@ -248,6 +250,108 @@ body{
   font-size: 20px;
   margin: 3px;
 }
+
+
+.center_detail{
+  position: absolute;
+  left: 50%;
+  top: 19%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.center_actions{
+  position: absolute;
+  left: 24.5%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.center_comments{
+  width: 600px;
+  left: 36%;
+  top: 39%;
+  position: absolute;
+}
+
+.detail_topic{
+  border:solid 2px black; 
+  font-size: 28px;
+  font-weight:800;
+  width: 150px;
+}
+.detail_info{
+  border:solid 2px black; 
+  font-size: 20px;
+  width:700px; 
+  word-wrap:break-word;
+}
+
+.detail_table{
+  border-collapse:collapse; 
+  table-layout:fixed; 
+  width:310px;
+}
+
+.center_detail tr:nth-child(odd){
+  background-color: #f2f2f2;
+}
+
+.comment_table{
+  border-collapse:collapse; 
+  table-layout:fixed; 
+  width:100px;
+  background-color: #f2f2f2;
+}
+
+
+
+.comment_topic{
+  border:solid 2px black; 
+  font-size: 24px;
+  font-weight:800;
+  width: 140px;
+  word-wrap:break-word;
+}
+
+.comment_detail{
+  border:solid 2px black; 
+  font-size: 20px;
+  width: 460px;
+  word-wrap:break-word;
+}
+
+.no_comments{
+  text-align: center;
+  font-size: 24px;
+  font-weight: 400;
+  display: inline;
+}
+
+.detail_button{
+  background-color: #b6b6b6;
+  border: 1px solid rgb(0, 0, 0);
+  width: 200px;
+  border-radius: 4px;
+  color: white;
+  padding: 2px 2px;
+  text-align: center;
+  display: inline-block;
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.center_actions_pm_director{
+  position: absolute;
+  left: 24.5%;
+  top: 45.5%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+
+
 
 
 

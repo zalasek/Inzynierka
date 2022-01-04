@@ -2,27 +2,73 @@
 
 {% extends 'employees\accounts\base_accounts.html' %}
 {% block content %}
-<div class = 'center_content'>   
-    TITLE: {{document.title}} <br>
-    OWNER: {{document.owner}} <br>
-    DESCRIPTION: {{document.description}} <br>
-    UPLOADED: {{document.created}} <br>
-    DOCUMENT FILE: {{document.document_file}} <br>
-    TYPE: {{document.type}} <br>
-    STATUS: {{document.status}} <br>
-
-    
-    <a href='http://127.0.0.1:8000/documents/media/{{document.document_file}}'> {{document.document_file}} </a> <br>
-    <a href='{% url 'document-update' document.id%}'> UPDATE DOCUMENT </a> <br>
-    <a href='{% url 'document-delete' document.id%}'> DELETE DOCUMENT </a> <br>
-    <a href='{% url 'document-comment' document.id%}'> ADD COMMENT </a> <br>
-
-    <br> <h1> COMMENTS: </h1>
-    {% for comment in comments %}
-    Author: {{comment.employee}} <br>
-    Comment: {{comment.comment}} <br>
-    <hr>
-    {% endfor %}
-
+<div class = 'center_detail'>   
+    <table class="detail_table">
+        <tr>
+            <td class="detail_topic">Title:</td>
+            <td class="detail_info">{{document.title}}</td>
+        </tr>
+        <tr>
+            <td class="detail_topic">Description:</td>
+            <td class="detail_info">{{document.description}}</td>
+          </tr>
+          <tr>
+            <td class="detail_topic">Owner:</td>
+            <td class="detail_info">{{document.owner}}</td>
+          </tr>
+          <tr>
+            <td class="detail_topic">Type:</td>
+            <td class="detail_info">{{document.type}}</td>
+          </tr>
+          <tr>
+            <td class="detail_topic">Status:</td>
+            <td class="detail_info">{{document.status}}</td>
+          </tr>
+          <tr>
+            <td class="detail_topic">File name:</td>
+            <td class="detail_info">{{document.document_file}}</td>
+          </tr>
+          <tr>
+            <td class="detail_topic">Uploaded:</td>
+            <td class="detail_info">{{document.created}}</td>
+          </tr>
+    </table>
 </div>
+
+<div class = 'center_actions'> 
+    <div class="page_title" >Actions:</div> <br>
+    <button class="detail_button"><a href='http://127.0.0.1:8000/documents/media/{{document.document_file}}'> VIEW </a> </button> <br>
+    <button class="detail_button"><a href='{% url 'document-update' document.id%}'> UPDATE  </a> </button><br>
+    <button class="detail_button"><a href='{% url 'document-delete' document.id%}'> DELETE  </a> </button><br>
+    <button class="detail_button"><a href='{% url 'document-comment' document.id%}'> COMMENT </a> </button><br>
+</div>   
+
+
+<div class = 'center_comments'> 
+    <div class="page_title" >Comments:</div>
+    {% for comment in comments %}
+    <table class="comment_table">
+    <tr>
+        <td class="comment_topic">Author</td>
+        <td class="comment_detail">{{comment.employee}}</td>
+    </tr>
+    <br>
+    <tr>
+        <td class="comment_topic">Comment</td>
+        <td class="comment_detail">{{comment.comment}}</td>
+    </tr>
+    <tr>
+        <td class="comment_topic">Created</td>
+        <td class="comment_detail">{{comment.created}}</td>
+    </tr>
+    </table>
+    {% empty %}
+    <br> 
+    <div class="no_comments" >There are no comments.</div>
+    {% endfor %}
+</div>
+
     {% endblock  %}
+
+
+

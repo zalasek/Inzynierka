@@ -31,9 +31,9 @@ def LoginView(request):
             if user.employee.position == 'director':
                 return redirect('document-not-assigned')
             if user.employee.position == 'project_menager':
-                return redirect('project_menager_home')
+                return redirect('document-waiting-check')
             if user.employee.position == 'accounts':
-                return redirect('accounts_home')
+                return redirect('document-list-waiting-payment')
         else:
             error = 'Wrong username or password!'
             context = {'error':error}
