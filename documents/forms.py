@@ -8,10 +8,9 @@ class DocumentForm(forms.ModelForm):
         fields = ['title',
                   'owner',
                   'description',
-                  'approved_director',
-                  'approved_pm',
                   'type',
                   'status']
+        
         
 class FileForm(forms.ModelForm):
     class Meta:

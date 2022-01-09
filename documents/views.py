@@ -128,8 +128,6 @@ def DocumentUpdateAccountsView(request, pk):
         'title':  document.title,
         'owner':  document.owner,
         'description': document.description,
-        'approved_director': document.approved_director,
-        'approved_pm':  document.approved_pm,
         'document_file': document.document_file,
         'type': document.type,
         'status': document.status }
@@ -153,7 +151,7 @@ def DocumentUpdateAccountsView(request, pk):
         Document.objects.filter(id=pk).update(title=title)
         Document.objects.filter(id=pk).update(description=description)
         Document.objects.filter(id=pk).update(status=status)
-        # dodać
+
         return redirect('document-list')
     else:
         return render(request, 'documents/accounts/document_update_accounts.html', context)
@@ -329,8 +327,7 @@ def DocumentWaitingChecksView(request):
     assignments = Assignment.objects.filter(employee=employee_id)
     documents = Document.objects.filter(status='temporary')
     for assignment in assignments:
-        print(assignment.employee.id)
-        print(assignment.document.id)
+ 
         document = Document.objects.filter(status='Waiting for checks').filter(id=assignment.document.id)
         documents = documents.union(document)
 
@@ -350,8 +347,7 @@ def DocumentCheckedView(request):
     assignments = Assignment.objects.filter(employee=employee_id)
     documents = Document.objects.filter(status='temporary')
     for assignment in assignments:
-        print(assignment.employee.id)
-        print(assignment.document.id)
+
         document = Document.objects.filter(status='Waiting for payment').filter(id=assignment.document.id)
         documents = documents.union(document)
     context = {'documents':documents}
