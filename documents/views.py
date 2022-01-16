@@ -61,7 +61,6 @@ def DocumentDetailAccountsView(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     document = Document.objects.get(id=pk)
-
     if Comment.objects.filter(document=document).exists():
         comments = Comment.objects.filter(document=document)
         context = {'document': document,
@@ -82,7 +81,7 @@ def DocumentListAccountsView(request):
 def DocumentCreateAccountsView(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    if request.method == 'POST':  # gdy zatwierdzimy formularz
+    if request.method == 'POST':  
         form = DocumentForm(request.POST)
         file_form = FileForm(request.FILES)
         if form.is_valid() and bool(request.FILES.get('document_file', False)) == True:
@@ -99,7 +98,7 @@ def DocumentCreateAccountsView(request):
                 document.save()
                 return redirect('document-list')
     else:
-        form = DocumentForm()  # gdy wczytamy stronę z formularzem
+        form = DocumentForm() 
         file_form = FileForm()
     context = {'form': form, 'file_form': file_form}
     return render(request, 'documents/accounts/document_create_accounts.html', context)
@@ -168,9 +167,7 @@ def DocumentListFinishedAccountsView(request):
 def DocumentListWaitingPaymentAccountsView(request):
     if not request.user.is_authenticated:
         return redirect('login')
-
     if request.method == 'POST':
- 
         id_document = request.POST.get('id')
         request.session['id_document'] = id_document 
         documents = Document.objects.filter(status='Waiting for payment')
@@ -196,8 +193,6 @@ def DocumentPaymentView(request):
     return render(request, 'documents/accounts/document_payment.html', context)
 
 
-
-####################### DIRECTOR ########################
 def DocumentDetailDirectorView(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -303,8 +298,6 @@ def DocumentConfirmationApprovalView(request, pk):
     context = {'document': document}
     return render(request, 'documents/director/document_approval_confirmation.html', context)
 
-
-############# PM ################
 def DocumentDetailPmView(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -348,7 +341,7 @@ def DocumentCheckedView(request):
     documents = Document.objects.filter(status='temporary')
     for assignment in assignments:
 
-        document = Document.objects.filter(status='Waiting for payment').filter(id=assignment.document.id)
+        document = Document.objects.filter(status='Waiting for director to approve').filter(id=assignment.document.id)
         documents = documents.union(document)
     context = {'documents':documents}
     return render(request, 'documents/pm/document_checked_pm.html', context)
@@ -362,7 +355,7 @@ def DocumentCheckView(request):
         else:
             id_document  = request.session['id_document'] 
             del request.session['id_document'] 
-            Document.objects.filter(id=id_document).update(status='Waiting for payment')
+            Document.objects.filter(id=id_document).update(status='Waiting for director to approve')
             return redirect('document-checked')
 
     context={}

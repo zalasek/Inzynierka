@@ -19,13 +19,11 @@ def LoginView(request):
         if request.user.employee.position == 'accounts':
             return redirect('document-list-waiting-payment')
         else:
-            return redirect('login')
-        
+            return redirect('login')  
     elif request.method == 'POST':
         username = request.POST.get('username') 
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-
         if user is not None:    
             login(request, user)
             if user.employee.position == 'director':
